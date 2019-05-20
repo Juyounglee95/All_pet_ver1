@@ -1,6 +1,7 @@
 package com.example.allpet_ver1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,16 +18,18 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
     private ArrayList<puppy> items = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
-//    public puppyAdapter(Context context, ArrayList<puppy> items ){
-//
-//        this.items = items;
-//        this.context = context;
-//        inflater = LayoutInflater.from(context);
-//
-//    }
+    public View view;
+    public puppyAdapter(Context context, ArrayList<puppy> items ){
+
+        this.items = items;
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+
+    }
     public puppyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(itemview);
+
         return viewHolder;
     }
 
@@ -39,6 +42,13 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
                 .into(viewHolder.pup_image);
 
         viewHolder.pup_name.setText(item.getname());
+        viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, dog_info.class);
+                context.startActivity(intent);
+            }
+        });
         //  viewHolder.tvContent.setText(item.getContent());
         // viewHolder.tvGenre.setText(item.getGenre());
 

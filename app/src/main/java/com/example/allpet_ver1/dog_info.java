@@ -46,7 +46,7 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dog_info);
 
         //String name, int age, String gender, String operation, String from, String to, int price, String text
         dog=new Dog("레몬",4,"남","Y","2019-04-20","2019-05-29",80000,"잘부탁드립니다.",0);
@@ -62,7 +62,7 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
         want_button=findViewById(R.id.btn_want);
 
 
-        name.setText(dog.getName());
+        name.setText(dog.getName().toString());
         age.setText(String.valueOf(dog.getAge()));
         gender.setText(dog.getGender());
         operation.setText(dog.getOperation());
