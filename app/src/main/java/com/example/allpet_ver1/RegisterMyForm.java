@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,6 +37,8 @@ public class RegisterMyForm extends AppCompatActivity {
     private String family_num="1";
     private EditText memo;
     private Button btn_register;
+    private RadioGroup breeding;
+
 
     final Context context = this;
 
@@ -51,7 +56,10 @@ public class RegisterMyForm extends AppCompatActivity {
         job = (EditText) findViewById(R.id.job);
         memo = (EditText) findViewById(R.id.memo);
         btn_register=(Button) findViewById(R.id.btn_register);
-
+        breeding = (RadioGroup) findViewById(R.id.breeding);
+        int id = breeding.getCheckedRadioButtonId();
+        RadioButton rb = (RadioButton) findViewById(id);
+        
         // 연락처 입력시 하이픈(-) 자동 입력.
         phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
