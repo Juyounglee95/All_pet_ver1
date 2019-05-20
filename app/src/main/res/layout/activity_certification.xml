@@ -1,12 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".certification">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:fitsSystemWindows="true"
+    tools:context=".certification"
+    >
+
+    <TextView
+        android:id="@+id/title_cert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="댕댕이 인증샷"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="20pt" />
     <lecho.lib.hellocharts.view.PieChartView
         android:id="@+id/chart"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="30dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="30dp"
+        android:text="사진을 업로드 해주세요"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="14sp" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+
+        <Button
+
+            android:id="@+id/camera_button"
+            android:layout_width="100dp"
+            android:textSize="14sp"
+            android:layout_height="50dp"
+            android:background="#FFD933"
+            android:textColor="#FFFF"
+            android:textStyle="bold"
+            android:text="Take Picture" />
+        <Button
+            android:layout_marginLeft="30dp"
+            android:id="@+id/upload_button"
+            android:layout_width="100dp"
+            android:textSize="14sp"
+            android:layout_height="50dp"
+            android:background="#FFD933"
+            android:textColor="#FFFF"
+            android:textStyle="bold"
+            android:text="Upload" />
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cert_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+
+        android:layout_marginTop="30dp"
+        android:overScrollMode="ifContentScrolls"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintVertical_weight="1"
+        app:srcCompat="@drawable/camera" />
+
+
+</LinearLayout>
+
+
