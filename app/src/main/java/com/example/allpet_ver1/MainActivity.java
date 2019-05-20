@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         edit_pw = (EditText)findViewById(R.id.input_pw);
         bt_login = (Button)findViewById(R.id.loginButton);
         intent = new Intent(this, mainpage_picture.class);
+        //hihihhihi
     }
     public void login(View view){
         id = edit_id.getText().toString();
