@@ -1,23 +1,23 @@
 package com.example.allpet_ver1;
 
 
-        import android.app.Activity;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.TextView;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-        import com.daimajia.slider.library.Animations.DescriptionAnimation;
-        import com.daimajia.slider.library.SliderLayout;
-        import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-        import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-        import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
-        import android.app.AlertDialog;
-
+import android.app.AlertDialog;
+import android.widget.Toast;
 
 
 public class dog_info extends Activity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
@@ -41,7 +41,10 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
     final Context context = this;
 
     //images
-    int[] HashMapForLocalRes={R.drawable.golden_1, R.drawable.golden_2, R.drawable.golden_3};
+//    int[] HashMapForLocalRes={R.drawable.golden_1, R.drawable.golden_2, R.drawable.golden_3};
+    String[] dog_images={"https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2.jpg",
+    "https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2-2.jpg",
+    "https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2-3.jpg"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +83,13 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
 
                 // AlertDialog 셋팅
                 alertDialogBuilder
-                        .setMessage("다시 한번 생각하셨나요?\n" +
-                                "동의를 누르면 화면이 넘어갑니다.")
+                        .setMessage("반려동물은 생명입니다.\n" +
+                                "신중히 고민하셨나요?\n"+
+                                "동의를 누르시면 입양 절차가 시작됩니다.")
                         .setCancelable(false)
                         .setPositiveButton("동의", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                dog.setWant_cnt(dog.getWant_cnt()+1);
                                 Intent intent=new Intent(getApplicationContext(), RegisterMyForm.class);
                                 intent.putExtra("dog", dog);
                                 startActivity(intent);
@@ -118,14 +121,14 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
         onStop();
 
         //insert images
-        for(int index=0 ;index< HashMapForLocalRes.length; index++){
+        for(int index=0 ;index< dog_images.length; index++){
 
             //TextSliderView
             DefaultSliderView textSliderView = new DefaultSliderView(dog_info.this);
 
             textSliderView
                     //.description(name)
-                    .image(HashMapForLocalRes[index])
+                    .image(dog_images[index])
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 
@@ -170,4 +173,11 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
 //        HashMapForURL.put("Eclair", "http://androidblog.esy.es/images/eclair-3.png");
 //    }
 
+
+    @Override
+    //새로 고침
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+    }
 }

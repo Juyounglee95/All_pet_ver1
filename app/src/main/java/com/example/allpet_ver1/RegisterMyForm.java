@@ -1,6 +1,9 @@
 package com.example.allpet_ver1;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,12 +28,16 @@ public class RegisterMyForm extends AppCompatActivity {
 
     private EditText name;
     private EditText phone;
-    private String choice_do="";
-    private String choice_se="";
+    private String choice_do="서울";
+    private String choice_se="강남구";
     private EditText job;
-    private String family_num="";
+    private String family_num="1";
     private EditText memo;
     private Button btn_register;
+
+    final Context context = this;
+
+    Dog dog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,7 @@ public class RegisterMyForm extends AppCompatActivity {
         setContentView(R.layout.activity_register_my_form);
 
         Intent intent=getIntent();
-        Dog dog=(Dog)intent.getSerializableExtra("dog");
+        dog=(Dog)intent.getSerializableExtra("dog");
         name=(EditText) findViewById(R.id.user_name);
         phone = (EditText) findViewById(R.id.phonenumber);
         job = (EditText) findViewById(R.id.job);
@@ -49,17 +56,9 @@ public class RegisterMyForm extends AppCompatActivity {
         phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         //spinner
-//        final Spinner spin1 = (Spinner)findViewById(R.id.spinner);
-//        final Spinner spin2 = (Spinner)findViewById(R.id.spinner2);
-//        final Spinner spin3=(Spinner)findViewById(R.id.family_num);
         spin1 = (Spinner)findViewById(R.id.spinner);
         spin2 = (Spinner)findViewById(R.id.spinner2);
         spin3 = (Spinner)findViewById(R.id.family_num);
-
-        //입력 체크
-        name.addTextChangedListener(registTextWatcher);
-        phone.addTextChangedListener(registTextWatcher);
-        job.addTextChangedListener(registTextWatcher);
 
         adspin1 = ArrayAdapter.createFromResource(this, R.array.spinner_do,android.R.layout.simple_spinner_item);
 
@@ -138,27 +137,37 @@ public class RegisterMyForm extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
+        //등록 버튼
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+                // AlertDialog 셋팅
+                alertDialogBuilder
+                        .setMessage("신청되었습니다.")
+                        .setCancelable(false)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                dog.setWant_cnt(dog.getWant_cnt()+1);
+                                //현재 Activity 종료
+                                finish();
+                                dialog.cancel();
+                            }
+                        });
+
+                // 다이얼로그 생성
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                alertDialog.setTitle("확인");
+                alertDialog.setIcon(R.drawable.dog_foot);
+
+                // 다이얼로그 보여주기
+                alertDialog.show();
+            }
+        });
+
     }//onCreate()
 
-
-    private TextWatcher registTextWatcher=new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String username=name.getText().toString().trim();
-            String phnumber=phone.getText().toString().trim();
-            String userjob=job.getText().toString().trim();
-            btn_register.setEnabled(!username.isEmpty()&&!phnumber.isEmpty()&&!choice_do.equals("")&&!choice_se.equals("")
-                    &&!userjob.isEmpty());
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 }

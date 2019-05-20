@@ -140,7 +140,7 @@
     <EditText
         android:id="@+id/memo"
         android:inputType="textMultiLine"
-        android:lines="2"
+        android:lines="3"
         android:minLines="1"
         android:maxLines="5"
         android:layout_height="wrap_content"
@@ -155,8 +155,7 @@
         android:textColor="#3F79FF"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:text="신청하기"
-        android:enabled="false"/>
+        android:text="신청하기"/>
 
 
 </LinearLayout>
