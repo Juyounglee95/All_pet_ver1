@@ -36,13 +36,14 @@ public class mainpage_picture extends AppCompatActivity {
     Spinner spinner;
     String[] areas;
     BottomNavigationView bottomNavigationView;
-    private  puppyAdapter adapter = new puppyAdapter();
+    private  puppyAdapter adapter;
     private Context context = mainpage_picture.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage_picture);
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
+       adapter = new puppyAdapter(this, new pup_data().getitems());
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         selectdarea=(TextView)findViewById(R.id.selected_area);
         spinner=(Spinner)findViewById(R.id.spinner);
