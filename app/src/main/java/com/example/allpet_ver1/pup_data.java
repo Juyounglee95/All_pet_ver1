@@ -16,6 +16,10 @@ public class pup_data {
         puppy p8 = new puppy("https://ifh.cc/g/o5dww.jpg", "개8", 13);
         puppy p9 = new puppy("https://ifh.cc/g/dr7Yw.jpg", "개9", 11);
         puppy p10 = new puppy("https://ifh.cc/g/9W80d.jpg", "개10", 10);
+       puppy p11 = new puppy("https://ifh.cc/g/9W80d.jpg", "개10", 10);
+       puppy p12 = new puppy("https://ifh.cc/g/9W80d.jpg", "개10", 10);
+       puppy p13 = new puppy("https://ifh.cc/g/9W80d.jpg", "개10", 10);
+       puppy p14 = new puppy("https://ifh.cc/g/9W80d.jpg", "개10", 10);
 
         items.add(p1);
        items.add(p2);
@@ -27,6 +31,11 @@ public class pup_data {
        items.add(p8);
        items.add(p9);
        items.add(p10);
+
+       items.add(p11);
+       items.add(p12);
+       items.add(p13);
+       items.add(p14);
 
 
        return items;

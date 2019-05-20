@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterMyForm"></activity>
+        <activity android:name=".certification"></activity>
+        <activity android:name=".RegisterMyForm" />
         <activity android:name=".dog_info" />
         <activity android:name=".mainpage_picture" />
         <activity android:name=".MainActivity">
