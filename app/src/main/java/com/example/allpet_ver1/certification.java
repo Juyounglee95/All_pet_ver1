@@ -18,7 +18,7 @@ public class certification extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certification);
-         PieChartView pieChartView = findViewById(R.id.chart);
+        PieChartView pieChartView = findViewById(R.id.chart);
         List pieData = new ArrayList<>();
         success = 80;
         pieData.add(new SliceValue(success, Color.parseColor("#FFFACD")).setLabel("SUCCESS"));
