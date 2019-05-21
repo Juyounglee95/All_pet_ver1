@@ -1,13 +1,16 @@
 package com.example.allpet_ver1;
 
+import android.content.ContentValues;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -22,10 +25,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    String id, pw;
+    String id="", pw="";
     EditText edit_id, edit_pw;
     Button bt_login;
     Intent  intent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         edit_id = (EditText)findViewById(R.id.input_email);
         edit_pw = (EditText)findViewById(R.id.input_pw);
         bt_login = (Button)findViewById(R.id.loginButton);
+
         intent = new Intent(this, mainpage_picture.class);
 
         //hihihhihi
@@ -84,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "FAIL",Toast.LENGTH_SHORT);
             }
         });
+
 
     }
 
