@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         id = edit_id.getText().toString();
         pw = edit_pw.getText().toString();
         getID();
-        //startActivity(intent);
+
     }
     private void getID() throws JSONException {
       //  Toast.makeText(MainActivity.this, "FIRST",Toast.LENGTH_SHORT).show();
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     JsonObject obj = response.body();
                     //Toast.makeText(MainActivity.this, "SUCCESS",Toast.LENGTH_SHORT).show();
                     if(obj!=null){
+                        startActivity(intent);
                         Toast.makeText(MainActivity.this, "SUCCESS",Toast.LENGTH_SHORT).show();
                         Log.e("TAG", obj.toString()+"%%%%%%%%%%%%%%%%%%%@!#!*$&#$!*732716344784782");
                     }
