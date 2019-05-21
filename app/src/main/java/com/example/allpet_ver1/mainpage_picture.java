@@ -142,6 +142,8 @@ public class mainpage_picture extends AppCompatActivity  {
                         startActivity(intent);
                         break;
                     case R.id.profile:
+                        intent = new Intent(mainpage_picture.this, mypage.class);
+                        startActivity(intent);
                         break;
 
                 }

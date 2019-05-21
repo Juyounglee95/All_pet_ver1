@@ -98,4 +98,10 @@
         <item>유성구</item>
         <item>중구</item>
     </string-array>
+    <string-array name = "board">
+        <item>모두</item>
+        <item>내가 올린 글</item>
+        <item>내가 신청한 글</item>
+        <item>진행중인 글</item>
+    </string-array>
 </resources>
