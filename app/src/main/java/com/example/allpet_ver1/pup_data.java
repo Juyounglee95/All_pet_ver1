@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class pup_data {
     ArrayList<puppy> items = new ArrayList<>();
-   public ArrayList<puppy> getitems() {
+    public ArrayList<puppy> getitems() {
         puppy p1 = new puppy("https://ifh.cc/g/86mBl.jpg", "개1", 1);
 
         puppy p2 = new puppy("https://ifh.cc/g/KHiC0.jpg", "개2", 100);
