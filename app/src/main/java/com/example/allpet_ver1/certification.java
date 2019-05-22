@@ -12,12 +12,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +46,8 @@ public class certification extends AppCompatActivity implements View.OnClickList
     Button cameraBtn, uploadBtn;
     TextView file_name;
     final static int TAKE_PICTURE=1;
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +58,8 @@ public class certification extends AppCompatActivity implements View.OnClickList
         cameraBtn.setOnClickListener(this);
         file_name = findViewById(R.id.file_name);
         uploadBtn = findViewById(R.id.upload_button);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
         uploadBtn.setOnClickListener(this);
         //권한 체크
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -75,6 +82,29 @@ public class certification extends AppCompatActivity implements View.OnClickList
         pieChartData.setHasLabels(true).setValueLabelTextSize(14);
         pieChartData.setHasCenterCircle(true).setCenterText1("MY GOAL").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
         pieChartView.setPieChartData(pieChartData);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
+            public boolean onNavigationItemSelected(@NonNull MenuItem item){
+                Intent intent;
+                switch (item.getItemId()) {
+                    case R.id.enroll_dog:
+                        break;
+                    case R.id.search:
+                        break;
+                    case R.id.home:
+                        intent = new Intent(certification.this, mainpage_picture.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.certificate:
+                        intent = new Intent(certification.this, certification.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.profile:
+                        break;
+
+                }
+                return true;
+            }
+        });
 
     }
     @Override
