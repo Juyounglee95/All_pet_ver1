@@ -142,6 +142,8 @@ public class mainpage_picture extends AppCompatActivity  {
                 Intent intent;
                 switch (item.getItemId()) {
                     case R.id.enroll_dog:
+                        intent = new Intent(mainpage_picture.this, dog_info_upload.class);
+                        startActivity(intent);
                         break;
                     case R.id.search:
                         break;
