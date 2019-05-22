@@ -187,7 +187,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
         // AlertDialog 셋팅
         alertDialogBuilder
-                .setMessage("신청되었습니다.")
+                .setMessage("등록되었습니다.")
                 .setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -196,14 +196,14 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
                             finish();
                             dialog.cancel();
 
-                            Intent intent = new Intent(getApplicationContext(), dog_info.class);
+                           // Intent intent = new Intent(getApplicationContext(), dog_info.class);
 
-                            puppy p = new puppy(paths[0],paths[1], paths[2], dogname, deposit, operation, description, "댕댕시",age,gender, "멍멍구", "말티즈", userid, startDate, endDate, 1, 0);
-                            Dog dog = new Dog(name.getText().toString(), age, gender, operation, date_start.getText().toString(), date_end.getText().toString(),
-                                    Integer.parseInt(price.getText().toString()), memo.getText().toString(), 0);
+                            //puppy p = new puppy(paths[0],paths[1], paths[2], dogname, deposit, operation, description, "댕댕시",age,gender, "멍멍구", "말티즈", userid, startDate, endDate, 1, 0);
+                            //Dog dog = new Dog(name.getText().toString(), age, gender, operation, date_start.getText().toString(), date_end.getText().toString(),
+                          //          Integer.parseInt(price.getText().toString()), memo.getText().toString(), 0);
 
-                            intent.putExtra("puppy", p);
-                            startActivity(intent);
+                            //intent.putExtra("puppy", p);
+                            //startActivity(intent);
                         }
                     }
                 });

@@ -53,7 +53,7 @@ public class mainpage_picture extends AppCompatActivity  {
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
         Intent intent = getIntent();
         final String id = intent.getExtras().getString("Id");
-        final String pw = intent.getExtras().getString("Pw");
+       // final String pw = intent.getExtras().getString("Pw");
         NetworkCall networkCall = new NetworkCall();
         networkCall.execute();
 
@@ -147,26 +147,26 @@ public class mainpage_picture extends AppCompatActivity  {
                         intent = new Intent(mainpage_picture.this, dog_info_upload.class);
                         intent.putExtra("Id",id);
                         startActivity(intent);
-                        finish();
+                       // finish();
                         break;
                     case R.id.search:
                         break;
                     case R.id.certificate:
                         intent = new Intent(mainpage_picture.this, certification.class);
                         intent.putExtra("Id", id);
-                        intent.putExtra("Pw", pw);
+                      //  intent.putExtra("Pw", pw);
                         startActivity(intent);
-                        finish();
+                      //  finish();
                         break;
                     case R.id.profile:
 
-                        intent = new Intent(mainpage_picture.this, mypage.class);
+                        intent = new Intent(mainpage_picture.this, profile.class);
                         intent.putParcelableArrayListExtra("puppy",np);
 
                         intent.putExtra("Id", id);
-                        intent.putExtra("Pw", pw);
+                       // intent.putExtra("Pw", pw);
                         startActivity(intent);
-                        finish();
+                       // finish();
                         break;
 
                 }
@@ -221,7 +221,8 @@ public class mainpage_picture extends AppCompatActivity  {
                                 arr.get(i).getAsJsonObject().get("StartDate").getAsString(),
                                 arr.get(i).getAsJsonObject().get("EndDate").getAsString(),
                                 arr.get(i).getAsJsonObject().get("StatusValue").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt()
+                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("Seq").getAsInt()
                         ));
                         //Log.e("ITEM", items.get(i).getUrl());
                     }

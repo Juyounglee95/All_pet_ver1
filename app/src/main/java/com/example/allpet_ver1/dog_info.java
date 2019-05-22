@@ -55,6 +55,8 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
         setContentView(R.layout.activity_dog_info);
         Intent i = getIntent();
         final puppy p = i.getParcelableExtra("puppy");
+        final int num = i.getExtras().getInt("num");
+        final String p_id = i.getExtras().getString("Id");
         imgUrl[0] = p.getUrl1();
         imgUrl[1] = p.getUrl2();
         imgUrl[2] = p.getUrl3();
@@ -105,6 +107,8 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
 
                                 Intent intent=new Intent(getApplicationContext(), RegisterMyForm.class);
                                 intent.putExtra("puppy", p);
+                                intent.putExtra("Id", p_id);
+                                intent.putExtra("num", num);
                                 startActivity(intent);
 
                             }

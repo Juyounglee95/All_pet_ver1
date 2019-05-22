@@ -45,7 +45,7 @@ public class mypage extends AppCompatActivity {
         Intent i = getIntent();
         ArrayList<puppy> p = i.getExtras().getParcelableArrayList("puppy");
         final String id = i.getExtras().getString("Id");
-        final String pw = i.getExtras().getString("Pw");
+//        final String pw = i.getExtras().getString("Pw");
 
 
         adapter.setItems(new board_data().getitems(num));
@@ -64,7 +64,7 @@ public class mypage extends AppCompatActivity {
                     case R.id.home:
                         intent = new Intent(mypage.this, mainpage_picture.class);
                         intent.putExtra("Id", id);
-                        intent.putExtra("Pw", pw);
+                      //  intent.putExtra("Pw", pw);
                         startActivity(intent);
                         break;
                     case R.id.enroll_dog:
@@ -78,7 +78,7 @@ public class mypage extends AppCompatActivity {
                     case R.id.certificate:
                         intent = new Intent(mypage.this, certification.class);
                         intent.putExtra("Id", id);
-                        intent.putExtra("Pw", pw);
+                    //    intent.putExtra("Pw", pw);
                         startActivity(intent);
                         break;
                     case R.id.profile:
