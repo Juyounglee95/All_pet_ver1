@@ -54,7 +54,9 @@ public class certification extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_certification);
         PieChartView pieChartView = findViewById(R.id.chart);
 
-
+        Intent i = getIntent();
+        final String id =i.getExtras().getString("Id");
+        final String pw= i.getExtras().getString("Pw");
         imageView = findViewById(R.id.cert_image);
         cameraBtn = findViewById(R.id.camera_button);
         cameraBtn.setOnClickListener(this);
@@ -94,13 +96,18 @@ public class certification extends AppCompatActivity implements View.OnClickList
                         break;
                     case R.id.home:
                         intent = new Intent(certification.this, mainpage_picture.class);
+                        intent.putExtra("Id", id);
+                        intent.putExtra("Pw", pw);
                         startActivity(intent);
                         break;
                     case R.id.certificate:
-                        intent = new Intent(certification.this, certification.class);
-                        startActivity(intent);
+
                         break;
                     case R.id.profile:
+                        intent = new Intent(certification.this, mypage.class);
+                        intent.putExtra("Id", id);
+                        intent.putExtra("Pw", pw);
+                        startActivity(intent);
                         break;
 
                 }

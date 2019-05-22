@@ -25,7 +25,7 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
     //SliderLayout
     private SliderLayout sliderLayout ;
 
-    Dog dog;
+ //   Dog dog;
 
     private TextView name;
     private TextView age;
@@ -39,20 +39,33 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
     private Button want_button;
 
     final Context context = this;
-
+    //String  dogname;
+    String[] imgUrl = new String[3];
+    String[] address = new String[2];
+    int money;
     //images
 //    int[] HashMapForLocalRes={R.drawable.golden_1, R.drawable.golden_2, R.drawable.golden_3};
-    String[] dog_images={"https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2.jpg",
-    "https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2-2.jpg",
-    "https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2-3.jpg"};
+//    String[] dog_images={"https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2.jpg",
+//    "https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2-2.jpg",
+//    "https://www.dogbreedslist.info/uploads/allimg/dog-pictures/Golden-Retriever-2-3.jpg"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_info);
-
-        //String name, int age, String gender, String operation, String from, String to, int price, String text
-        dog=new Dog("레몬",4,"남","Y","2019-04-20","2019-05-29",80000,"잘부탁드립니다.",0);
+        Intent i = getIntent();
+        final puppy p = i.getParcelableExtra("puppy");
+        imgUrl[0] = p.getUrl1();
+        imgUrl[1] = p.getUrl2();
+        imgUrl[2] = p.getUrl3();
+        address[0] = p.getAdd1();
+        address[1] = p.getAdd2();
+//
+//        imgUrl[0] = i.getExtras().getString("url");
+//        dogname = i.getExtras().getString("name");
+//        money = i.getExtras().getInt("money");
+//        //String name, int age, String gender, String operation, String from, String to, int price, String text
+        //dog=new Dog(dogname,4,"남","Y","2019-04-20","2019-05-29",money,"잘부탁드립니다.",0);
 
         name=findViewById(R.id.name);
         age=findViewById(R.id.age);
@@ -65,14 +78,14 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
         want_button=findViewById(R.id.btn_want);
 
 
-        name.setText(dog.getName().toString());
-        age.setText(String.valueOf(dog.getAge()));
-        gender.setText(dog.getGender());
-        operation.setText(dog.getOperation());
-        term.setText(dog.getFrom()+"~"+dog.getTo());
-        price.setText(String.valueOf(dog.getPrice()));
-        text.setText(dog.getText());
-        count.setText(String.valueOf(dog.getWant_cnt()));
+        name.setText(p.getname());
+        age.setText(String.valueOf(p.getAge()));
+        gender.setText(p.getGender());
+        operation.setText(p.getNeutral());
+        term.setText(p.getStartDate()+"~"+p.getEndDate());
+        price.setText(String.valueOf(p.getmoney()));
+        text.setText(p.getDescription());
+        count.setText(String.valueOf(p.getCount()));
 
         //want_button click
         want_button.setOnClickListener(new View.OnClickListener(){
@@ -91,7 +104,7 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
                             public void onClick(DialogInterface dialog, int id) {
 
                                 Intent intent=new Intent(getApplicationContext(), RegisterMyForm.class);
-                                intent.putExtra("dog", dog);
+                                intent.putExtra("puppy", p);
                                 startActivity(intent);
 
                             }
@@ -121,14 +134,14 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
         onStop();
 
         //insert images
-        for(int index=0 ;index< dog_images.length; index++){
+        for(int index=0 ;index< imgUrl.length; index++){
 
             //TextSliderView
             DefaultSliderView textSliderView = new DefaultSliderView(dog_info.this);
 
             textSliderView
                     //.description(name)
-                    .image(dog_images[index])
+                    .image(imgUrl[index])
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
 

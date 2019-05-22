@@ -41,7 +41,9 @@ public class mypage extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         selectedarea = (TextView) findViewById(R.id.selected_area);
         spinner = (Spinner) findViewById(R.id.spinner);
-
+        Intent i = getIntent();
+        final String id = i.getExtras().getString("Id");
+        final String pw = i.getExtras().getString("Pw");
         //areas =new String[]{"선택하세요","서울","부산","경기도","광주","인천"};
         adspin1 = ArrayAdapter.createFromResource(this, R.array.board, android.R.layout.simple_spinner_item);
 
@@ -98,14 +100,24 @@ public class mypage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;
                 switch (item.getItemId()) {
-                    case R.id.enroll_dog:
+                    case R.id.home:
                         intent = new Intent(mypage.this, mainpage_picture.class);
+                        intent.putExtra("Id", id);
+                        intent.putExtra("Pw", pw);
                         startActivity(intent);
+                        break;
+                    case R.id.enroll_dog:
+//                        intent = new Intent(mypage.this, mainpage_picture.class);
+//                        intent.putExtra("Id", id);
+//                        intent.putExtra("Pw", pw);
+//                        startActivity(intent);
                         break;
                     case R.id.search:
                         break;
                     case R.id.certificate:
                         intent = new Intent(mypage.this, certification.class);
+                        intent.putExtra("Id", id);
+                        intent.putExtra("Pw", pw);
                         startActivity(intent);
                         break;
                     case R.id.profile:
