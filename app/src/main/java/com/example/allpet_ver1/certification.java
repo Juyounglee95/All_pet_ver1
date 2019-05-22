@@ -53,6 +53,8 @@ public class certification extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_certification);
         PieChartView pieChartView = findViewById(R.id.chart);
+
+
         imageView = findViewById(R.id.cert_image);
         cameraBtn = findViewById(R.id.camera_button);
         cameraBtn.setOnClickListener(this);

@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class pup_data {
     ArrayList<puppy> items = new ArrayList<>();
 
+
     private void getID() throws JSONException {
 
         Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())

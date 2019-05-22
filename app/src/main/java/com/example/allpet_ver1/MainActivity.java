@@ -1,13 +1,16 @@
 package com.example.allpet_ver1;
 
+import android.content.ContentValues;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -22,10 +25,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-     String id, pw;
+String id, pw;
+
     EditText edit_id, edit_pw;
     Button bt_login;
     Intent  intent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -34,13 +40,17 @@ public class MainActivity extends AppCompatActivity {
         edit_pw = (EditText)findViewById(R.id.input_pw);
         bt_login = (Button)findViewById(R.id.loginButton);
 
+
+
         //hihihhihi
     }
     public void login(View view) throws  JSONException{
         id = edit_id.getText().toString();
         pw = edit_pw.getText().toString();
+
         getID(id, pw);
         //startActivity(intent);
+
     }
     private void getID(final String id, final String pw) throws JSONException {
       //  Toast.makeText(MainActivity.this, "FIRST",Toast.LENGTH_SHORT).show();
@@ -69,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     JsonObject obj = response.body();
                     //Toast.makeText(MainActivity.this, "SUCCESS",Toast.LENGTH_SHORT).show();
                     if(obj!=null){
+
                         String result = obj.get("isLogin").getAsString();
                        if(result.equals("true")){
                            intent.putExtra("Id", id);
@@ -78,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this,"아이디와 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 }
             }
@@ -89,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "로그인 실패",Toast.LENGTH_SHORT);
             }
         });
+
 
     }
 
