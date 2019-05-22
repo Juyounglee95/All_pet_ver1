@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
     private Context context;
     public View view;
     public puppyAdapter(Context context, ArrayList<puppy> items ){
-
+       // Log.e("Adapter","^^^^^");
         this.items = items;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -33,19 +34,25 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
         return viewHolder;
     }
 
-    public void onBindViewHolder(@NonNull puppyAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull puppyAdapter.ViewHolder viewHolder, final int position) {
 
-        puppy item = items.get(position);
+        final puppy item = items.get(position);
 
         Glide.with(viewHolder.itemView.getContext())
-                .load(item.getUrl())
+                .load(item.getUrl1())
                 .into(viewHolder.pup_image);
-
-        viewHolder.pup_name.setText(item.getname());
+        String s = item.getname()+" / "+item.getmoney();
+        viewHolder.pup_name.setText(s);
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, dog_info.class);
+                intent.putExtra("puppy", item);
+                intent.putExtra("Id", item.getP_id());
+                intent.putExtra("num", item.getSeq());
+//                intent.putExtra("url", item.getUrl1());
+//                intent.putExtra("name", item.getname());
+//                intent.putExtra("money", item.getmoney());
                 context.startActivity(intent);
             }
         });

@@ -16,6 +16,13 @@
         android:title="검색"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="홈"
+        app:showAsAction="ifRoom"
+        />
+    <item
         android:id="@+id/certificate"
         android:enabled="true"
         android:icon="@drawable/camera"

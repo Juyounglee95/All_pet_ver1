@@ -10,11 +10,13 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,18 +28,27 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
 
     //image
     ImageView image1, image2, image3;
     ImageView[] images={image1, image2, image3};
+    String[] paths = new String[3];
     int position=0;
     private AlertDialog dialog;
     //사진 경로
@@ -61,10 +72,13 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
     RadioGroup radio_operation;
     String gender="";
     String operation="";
-
+    String dogname="";
+    String description="";
+    int deposit=0;
     EditText price;
-
+    Boolean result= false;
     TextView date_start, date_end;
+    String startDate, endDate;
     //년, 월, 일
     int mYear, mMonth, mDay;
     int flag=0;
@@ -75,11 +89,14 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
     private static final int TAKE_PICTURE = 1;
     private static final int PICK_FROM_GALLERY = 2;
-
+    String userid;
+    int idx=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dog_info_upload);
+        Intent i = getIntent();
+        userid = i.getExtras().getString("Id");
 
         //images
         images[0]=(ImageView) findViewById(R.id.image1);
@@ -109,6 +126,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
         //가격
         price=(EditText)findViewById(R.id.price);
+
         //부탁의 말
         memo=(EditText)findViewById(R.id.memo);
         //Upload
@@ -208,6 +226,12 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
 
     }
+    public void updateinfo(){
+        dogname = name.getText().toString();
+        deposit = Integer.parseInt(price.getText().toString());
+        description = memo.getText().toString();
+
+    }
 
     //보증금 추천 버튼을 클릭 시
     public void warrantyClick(View v){
@@ -230,23 +254,31 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
     //btn_upload 눌렀을 시
     public void UploadClick(View v){
+        NetworkCall networkCall = new NetworkCall();
+        networkCall.execute();
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         // AlertDialog 셋팅
         alertDialogBuilder
-                .setMessage("신청되었습니다.")
+                .setMessage("등록되었습니다.")
                 .setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //현재 Activity 종료
-                        finish();
-                        dialog.cancel();
+                        if (result) {
+                            finish();
+                            dialog.cancel();
 
-                        Intent intent=new Intent(getApplicationContext(), dog_info.class);
-                        Dog dog=new Dog(name.getText().toString(),age,gender,operation, date_start.getText().toString(),date_end.getText().toString(),
-                                Integer.parseInt(price.getText().toString()), memo.getText().toString(),0);
-                        intent.putExtra("dog", dog);
-                        startActivity(intent);
+                           // Intent intent = new Intent(getApplicationContext(), dog_info.class);
+
+                            //puppy p = new puppy(paths[0],paths[1], paths[2], dogname, deposit, operation, description, "댕댕시",age,gender, "멍멍구", "말티즈", userid, startDate, endDate, 1, 0);
+                            //Dog dog = new Dog(name.getText().toString(), age, gender, operation, date_start.getText().toString(), date_end.getText().toString(),
+                          //          Integer.parseInt(price.getText().toString()), memo.getText().toString(), 0);
+
+                            //intent.putExtra("puppy", p);
+                            //startActivity(intent);
+                        }
                     }
                 });
 
@@ -293,9 +325,11 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
     //텍스트뷰의 값을 업데이트 하는 메소드
     void UpdateStart(){
         date_start.setText(String.format("%d-%d-%d", mYear, mMonth + 1, mDay));
+        startDate =String.format("%d-%d-%d", mYear, mMonth + 1, mDay);
     }
     void UpdateEnd(){
         date_end.setText(String.format("%d-%d-%d", mYear, mMonth + 1, mDay));
+        endDate= String.format("%d-%d-%d", mYear, mMonth + 1, mDay);
     }
 
     //날짜 대화상자 리스너 부분
@@ -348,7 +382,64 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
         dialog = builder.create();
     }
 
+    private class NetworkCall extends AsyncTask<Call,Void, String> {
+        ArrayList<puppy> items= new ArrayList<puppy>();
+        @Override
+        protected String doInBackground(Call... calls) {
+            updateinfo();
+            Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(RetrofitExService.URL)
+                    .build();
+            RetrofitExService Ret= retrofit.create(RetrofitExService.class);
+            JsonObject obj = new JsonObject();
 
+            obj.addProperty("Id",userid);
+            obj.addProperty("PetName",dogname);
+            obj.addProperty("Age",age);
+            obj.addProperty("Gender",gender);
+            obj.addProperty("Neutral",operation);
+            obj.addProperty("Deposit", deposit);
+            obj.addProperty("StartDate",startDate) ;
+            obj.addProperty("EndDate",endDate);
+            obj.addProperty("ImgPath1",paths[0]);
+            obj.addProperty("ImgPath2", paths[1]);
+            obj.addProperty("ImgPath3",paths[2]);
+            obj.addProperty("Description",description);
+            obj.addProperty("StatusValue",1);
+            obj.addProperty("Breeds","시츄");
+            obj.addProperty("Address1", "서울");
+            obj.addProperty("Address2","강남구");
+
+
+            Call<JsonObject> call = Ret.postTest("RegPet.sk",obj);
+            try {
+                JsonObject object = call.execute().body();
+                String s="";
+                if (object != null) {
+                    s = object.get("result").getAsString();
+
+                    }
+                    return s;
+                }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+        protected void onPostExecute(String s){
+            super.onPostExecute(s);
+            if(s.equals("true")){
+                result=true;
+            }
+            Log.e("TAG",s);
+
+        }
+
+
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -442,6 +533,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
+
 
         return image;
     }

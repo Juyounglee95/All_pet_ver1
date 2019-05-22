@@ -2,6 +2,7 @@ package com.example.allpet_ver1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,12 +21,23 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class mainpage_picture extends AppCompatActivity  {
     ArrayAdapter<CharSequence> adspin1, adspin2 = null;
-
+    ArrayList<puppy> np = new ArrayList<>();
     TextView selectedarea, selectedarea2;
     Spinner spinner= null;
     Spinner spinner2= null;
@@ -34,11 +47,17 @@ public class mainpage_picture extends AppCompatActivity  {
     private  puppyAdapter adapter;
     private Context context = mainpage_picture.this;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage_picture);
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
-        adapter = new puppyAdapter(this, new pup_data().getitems());
+        Intent intent = getIntent();
+        final String id = intent.getExtras().getString("Id");
+       // final String pw = intent.getExtras().getString("Pw");
+        NetworkCall networkCall = new NetworkCall();
+        networkCall.execute();
+
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         selectedarea=(TextView)findViewById(R.id.selected_area);
         selectedarea2=(TextView)findViewById(R.id.selected_area2);
@@ -118,34 +137,37 @@ public class mainpage_picture extends AppCompatActivity  {
 
 
 
-
-
-        adapter.setItems(new pup_data().getitems());
-
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.setAdapter(adapter);
-
-        //아이템 로드
-        adapter.setItems(new pup_data().getitems());
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;
                 switch (item.getItemId()) {
+                    case R.id.home:
+                        break;
                     case R.id.enroll_dog:
                         intent = new Intent(mainpage_picture.this, dog_info_upload.class);
+                        intent.putExtra("Id",id);
                         startActivity(intent);
+                       // finish();
                         break;
                     case R.id.search:
                         break;
                     case R.id.certificate:
                         intent = new Intent(mainpage_picture.this, certification.class);
+                        intent.putExtra("Id", id);
+                      //  intent.putExtra("Pw", pw);
                         startActivity(intent);
+                      //  finish();
                         break;
                     case R.id.profile:
+
                         intent = new Intent(mainpage_picture.this, profile.class);
+                        intent.putParcelableArrayListExtra("puppy",np);
+
+                        intent.putExtra("Id", id);
+                       // intent.putExtra("Pw", pw);
+
                         startActivity(intent);
+                       // finish();
                         break;
 
                 }
@@ -153,4 +175,75 @@ public class mainpage_picture extends AppCompatActivity  {
             }
         });
     }
+    public void setview(ArrayList<puppy> puppy){
+        adapter = new puppyAdapter(this, puppy);
+        np = puppy;
+        adapter.setItems(puppy);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(adapter);
+
+
+    }
+
+    private class NetworkCall extends AsyncTask<Call,Void, ArrayList<puppy> >{
+        ArrayList<puppy> items= new ArrayList<puppy>();
+        @Override
+        protected ArrayList<puppy> doInBackground(Call... calls) {
+            Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(imgPath_interface.URL)
+                    .build();
+            imgPath_interface imgPath_interface= retrofit.create(imgPath_interface.class);
+            JsonObject obj = new JsonObject();
+            obj.addProperty("Id","");
+            Call<JsonArray> call = imgPath_interface.imgTest("selectPetList.sk",obj);
+            try {
+                JsonArray arr = call.execute().body();
+                if (arr != null) {
+                    String imgpath;
+                    // = new ArrayList<puppy>();
+                    Log.e("Size",String.valueOf(arr.size()));
+                    for (int i = 0; i < 100; i++) {
+
+                        Log.e("Index", String.valueOf(i));
+                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),
+                                arr.get(i).getAsJsonObject().get("ImgPath2").getAsString(),
+                                arr.get(i).getAsJsonObject().get("ImgPath3").getAsString(),
+                                arr.get(i).getAsJsonObject().get("PetName").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Deposit").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("Neutral").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Description").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Address1").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Age").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("Gender").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Address2").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Breeds").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Id").getAsString(),
+                                arr.get(i).getAsJsonObject().get("StartDate").getAsString(),
+                                arr.get(i).getAsJsonObject().get("EndDate").getAsString(),
+                                arr.get(i).getAsJsonObject().get("StatusValue").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("Seq").getAsInt()
+                        ));
+                        //Log.e("ITEM", items.get(i).getUrl());
+                    }
+                    return items;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+        protected void onPostExecute(ArrayList<puppy> p){
+            super.onPostExecute(p);
+            Log.e("TAG",p.get(1).getname());
+            setview(p);
+        }
+
+
+
+    }
 }
+
