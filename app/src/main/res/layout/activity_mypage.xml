@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
-            android:text="나와 관련된 글들 ㅎㅎ" />
+            android:text="         나와 관련된 글들 ㅎㅎ" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

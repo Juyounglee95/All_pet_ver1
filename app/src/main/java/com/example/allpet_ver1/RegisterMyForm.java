@@ -42,15 +42,16 @@ public class RegisterMyForm extends AppCompatActivity {
 
     final Context context = this;
 
-    Dog dog;
-
+    //Dog dog;
+    puppy p;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_my_form);
 
         Intent intent=getIntent();
-        dog=(Dog)intent.getSerializableExtra("dog");
+        p = intent.getParcelableExtra("puppy");
+        //dog=(Dog)intent.getSerializableExtra("dog");
         name=(EditText) findViewById(R.id.user_name);
         phone = (EditText) findViewById(R.id.phonenumber);
         job = (EditText) findViewById(R.id.job);
@@ -157,8 +158,7 @@ public class RegisterMyForm extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
-                                dog.setWant_cnt(dog.getWant_cnt()+1);
+                                p.setCount(p.getCount()+1); //count number update
                                 //현재 Activity 종료
                                 finish();
                                 dialog.cancel();

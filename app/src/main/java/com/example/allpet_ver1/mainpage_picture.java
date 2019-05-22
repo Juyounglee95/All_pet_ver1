@@ -52,8 +52,8 @@ public class mainpage_picture extends AppCompatActivity  {
         setContentView(R.layout.activity_mainpage_picture);
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
         Intent intent = getIntent();
-        String id = intent.getExtras().getString("Id");
-        String pw = intent.getExtras().getString("Pw");
+        final String id = intent.getExtras().getString("Id");
+        final String pw = intent.getExtras().getString("Pw");
         NetworkCall networkCall = new NetworkCall();
         networkCall.execute();
 
@@ -141,6 +141,8 @@ public class mainpage_picture extends AppCompatActivity  {
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;
                 switch (item.getItemId()) {
+                    case R.id.home:
+                        break;
                     case R.id.enroll_dog:
                         intent = new Intent(mainpage_picture.this, dog_info_upload.class);
                         startActivity(intent);
@@ -149,11 +151,17 @@ public class mainpage_picture extends AppCompatActivity  {
                         break;
                     case R.id.certificate:
                         intent = new Intent(mainpage_picture.this, certification.class);
+                        intent.putExtra("Id", id);
+                        intent.putExtra("Pw", pw);
                         startActivity(intent);
+                        finish();
                         break;
                     case R.id.profile:
                         intent = new Intent(mainpage_picture.this, mypage.class);
+                        intent.putExtra("Id", id);
+                        intent.putExtra("Pw", pw);
                         startActivity(intent);
+                        finish();
                         break;
 
                 }
@@ -190,8 +198,20 @@ public class mainpage_picture extends AppCompatActivity  {
                     for (int i = 0; i < arr.size(); i++) {
 
 
-                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath").getAsString(), "개", 1));
-                        Log.e("ITEM", items.get(i).getUrl());
+                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),arr.get(i).getAsJsonObject().get("ImgPath2").getAsString(),arr.get(i).getAsJsonObject().get("ImgPath3").getAsString(),
+                                arr.get(i).getAsJsonObject().get("PetName").getAsString(),arr.get(i).getAsJsonObject().get("Deposit").getAsInt(),arr.get(i).getAsJsonObject().get("Neutral").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Description").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Address1").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Age").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("Gender").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Address2").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Breeds").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Id").getAsString(),
+                                arr.get(i).getAsJsonObject().get("StartDate").getAsString(),
+                                arr.get(i).getAsJsonObject().get("EndDate").getAsString(),
+                                arr.get(i).getAsJsonObject().get("StatusValue").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt()));
+                        //Log.e("ITEM", items.get(i).getUrl());
                     }
                     return items;
                 }

@@ -21,7 +21,7 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
     private Context context;
     public View view;
     public puppyAdapter(Context context, ArrayList<puppy> items ){
-        Log.e("Adapter","^^^^^");
+       // Log.e("Adapter","^^^^^");
         this.items = items;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -36,17 +36,21 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
 
     public void onBindViewHolder(@NonNull puppyAdapter.ViewHolder viewHolder, int position) {
 
-        puppy item = items.get(position);
+        final puppy item = items.get(position);
 
         Glide.with(viewHolder.itemView.getContext())
-                .load(item.getUrl())
+                .load(item.getUrl1())
                 .into(viewHolder.pup_image);
-
-        viewHolder.pup_name.setText(item.getname());
+        String s = item.getname()+" / "+item.getmoney();
+        viewHolder.pup_name.setText(s);
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, dog_info.class);
+                intent.putExtra("puppy", item);
+//                intent.putExtra("url", item.getUrl1());
+//                intent.putExtra("name", item.getname());
+//                intent.putExtra("money", item.getmoney());
                 context.startActivity(intent);
             }
         });
