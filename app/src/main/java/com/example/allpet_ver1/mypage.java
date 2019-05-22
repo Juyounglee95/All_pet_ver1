@@ -42,6 +42,7 @@ public class mypage extends AppCompatActivity {
         selectedarea = (TextView) findViewById(R.id.selected_area);
         spinner = (Spinner) findViewById(R.id.spinner);
         Intent i = getIntent();
+        ArrayList<puppy> p = i.getExtras().getParcelableArrayList("puppy");
         final String id = i.getExtras().getString("Id");
         final String pw = i.getExtras().getString("Pw");
         //areas =new String[]{"선택하세요","서울","부산","경기도","광주","인천"};

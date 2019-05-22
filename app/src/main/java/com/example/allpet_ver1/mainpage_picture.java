@@ -145,7 +145,9 @@ public class mainpage_picture extends AppCompatActivity  {
                         break;
                     case R.id.enroll_dog:
                         intent = new Intent(mainpage_picture.this, dog_info_upload.class);
+                        intent.putExtra("Id",id);
                         startActivity(intent);
+                        finish();
                         break;
                     case R.id.search:
                         break;
@@ -158,6 +160,7 @@ public class mainpage_picture extends AppCompatActivity  {
                         break;
                     case R.id.profile:
                         intent = new Intent(mainpage_picture.this, mypage.class);
+                        intent.putParcelableArrayListExtra("puppy",np);
                         intent.putExtra("Id", id);
                         intent.putExtra("Pw", pw);
                         startActivity(intent);
@@ -171,6 +174,7 @@ public class mainpage_picture extends AppCompatActivity  {
     }
     public void setview(ArrayList<puppy> puppy){
         adapter = new puppyAdapter(this, puppy);
+        np = puppy;
         adapter.setItems(puppy);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -195,11 +199,16 @@ public class mainpage_picture extends AppCompatActivity  {
                 if (arr != null) {
                     String imgpath;
                     // = new ArrayList<puppy>();
-                    for (int i = 0; i < arr.size(); i++) {
+                    Log.e("Size",String.valueOf(arr.size()));
+                    for (int i = 0; i < 100; i++) {
 
-
-                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),arr.get(i).getAsJsonObject().get("ImgPath2").getAsString(),arr.get(i).getAsJsonObject().get("ImgPath3").getAsString(),
-                                arr.get(i).getAsJsonObject().get("PetName").getAsString(),arr.get(i).getAsJsonObject().get("Deposit").getAsInt(),arr.get(i).getAsJsonObject().get("Neutral").getAsString(),
+                        Log.e("Index", String.valueOf(i));
+                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),
+                                arr.get(i).getAsJsonObject().get("ImgPath2").getAsString(),
+                                arr.get(i).getAsJsonObject().get("ImgPath3").getAsString(),
+                                arr.get(i).getAsJsonObject().get("PetName").getAsString(),
+                                arr.get(i).getAsJsonObject().get("Deposit").getAsInt(),
+                                arr.get(i).getAsJsonObject().get("Neutral").getAsString(),
                                 arr.get(i).getAsJsonObject().get("Description").getAsString(),
                                 arr.get(i).getAsJsonObject().get("Address1").getAsString(),
                                 arr.get(i).getAsJsonObject().get("Age").getAsInt(),
@@ -210,7 +219,8 @@ public class mainpage_picture extends AppCompatActivity  {
                                 arr.get(i).getAsJsonObject().get("StartDate").getAsString(),
                                 arr.get(i).getAsJsonObject().get("EndDate").getAsString(),
                                 arr.get(i).getAsJsonObject().get("StatusValue").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt()));
+                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt()
+                        ));
                         //Log.e("ITEM", items.get(i).getUrl());
                     }
                     return items;
