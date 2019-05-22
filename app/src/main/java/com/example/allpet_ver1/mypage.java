@@ -43,6 +43,7 @@ public class mypage extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         Intent i = getIntent();
+        ArrayList<puppy> p = i.getExtras().getParcelableArrayList("puppy");
         final String id = i.getExtras().getString("Id");
         final String pw = i.getExtras().getString("Pw");
 
