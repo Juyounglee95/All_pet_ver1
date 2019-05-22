@@ -159,8 +159,10 @@ public class mainpage_picture extends AppCompatActivity  {
                         finish();
                         break;
                     case R.id.profile:
+
                         intent = new Intent(mainpage_picture.this, mypage.class);
                         intent.putParcelableArrayListExtra("puppy",np);
+
                         intent.putExtra("Id", id);
                         intent.putExtra("Pw", pw);
                         startActivity(intent);
