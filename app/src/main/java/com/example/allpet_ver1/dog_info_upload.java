@@ -56,10 +56,16 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
     Button btn_image;
     EditText name;
-    //age
-    Spinner spin1;
-    ArrayAdapter<CharSequence> adspin1;
+    EditText breeds;
+
+    //age, 사는 곳
+    Spinner spin1,spin2,spin3;
+    ArrayAdapter<CharSequence> adspin1,adspin2,adspin3;
     int age=0;
+
+    String si="서울";
+    String gu="강남구";
+    String dog_breeds="";
 
     //성별, 중성화 여부
     RadioGroup radio_gender;
@@ -114,6 +120,10 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
         //이름
         name = (EditText) findViewById(R.id.name);
+        //종
+        breeds=(EditText)findViewById(R.id.breeds);
+        dog_breeds=breeds.getText().toString();
+
         //가격
         price=(EditText)findViewById(R.id.price);
 
@@ -124,7 +134,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
         //age spinner
         spin1 = (Spinner)findViewById(R.id.age);
-        adspin1 = ArrayAdapter.createFromResource(this, R.array.family_num,android.R.layout.simple_spinner_item);
+        adspin1 = ArrayAdapter.createFromResource(this, R.array.age,android.R.layout.simple_spinner_item);
         //adapter에 값 input
         adspin1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin1.setAdapter(adspin1);
@@ -133,6 +143,61 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 age = Integer.parseInt(adspin1.getItem(i)+"");
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
+
+        //사는 곳 spinner
+        spin2 = (Spinner)findViewById(R.id.spinner);
+        spin3 = (Spinner)findViewById(R.id.spinner2);
+
+        adspin2 = ArrayAdapter.createFromResource(this, R.array.spinner_do,android.R.layout.simple_spinner_item);
+        adspin2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin2.setAdapter(adspin2);
+        spin2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //서울시
+                if (adspin2.getItem(i).equals("서울")) {
+                    si = "서울";
+                    adspin3 = ArrayAdapter.createFromResource(dog_info_upload.this, R.array.spinner_do_seoul, android.R.layout.simple_spinner_dropdown_item);
+
+                } else if (adspin2.getItem(i).equals("인천")) {       //인천
+                    si = "인천";
+                    adspin3 = ArrayAdapter.createFromResource(dog_info_upload.this, R.array.spinner_do_incheon, android.R.layout.simple_spinner_dropdown_item);
+
+                } else if(adspin2.getItem(i).equals("광주")) {       //광주
+                    si = "광주";
+                    adspin3 = ArrayAdapter.createFromResource(dog_info_upload.this, R.array.spinner_do_gwangju, android.R.layout.simple_spinner_dropdown_item);
+
+                }else if(adspin2.getItem(i).equals("대구")) {       //대구
+                    si = "대구";
+                    adspin3 = ArrayAdapter.createFromResource(dog_info_upload.this, R.array.spinner_do_daegu, android.R.layout.simple_spinner_dropdown_item);
+
+                }else if(adspin2.getItem(i).equals("울산")) {       //울산
+                    si = "울산";
+                    adspin3 = ArrayAdapter.createFromResource(dog_info_upload.this, R.array.spinner_do_ulsan, android.R.layout.simple_spinner_dropdown_item);
+
+                }else if(adspin2.getItem(i).equals("대전")) {       //대전
+                    si = "대전";
+                    adspin3 = ArrayAdapter.createFromResource(dog_info_upload.this, R.array.spinner_do_daejeon, android.R.layout.simple_spinner_dropdown_item);
+                }
+
+                adspin3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin3.setAdapter(adspin3);
+
+                spin3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                         gu = adspin3.getItem(i)+"";
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) { }
+                });
+            }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
@@ -167,6 +232,15 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
         description = memo.getText().toString();
 
     }
+
+    //보증금 추천 버튼을 클릭 시
+    public void warrantyClick(View v){
+        Intent intent=new Intent(getApplicationContext(), warranty_recommand.class);
+        //intent.putExtra("dog", dog);
+        //...
+        startActivity(intent);
+    }
+
 
     //기간 시작, 종료 눌렀을 시
     public void mStartClick(View v){

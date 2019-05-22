@@ -165,6 +165,7 @@ public class mainpage_picture extends AppCompatActivity  {
 
                         intent.putExtra("Id", id);
                        // intent.putExtra("Pw", pw);
+
                         startActivity(intent);
                        // finish();
                         break;

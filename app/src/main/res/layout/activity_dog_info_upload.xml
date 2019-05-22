@@ -51,29 +51,56 @@
                 android:textSize="20dp"
                 android:text="이미지 첨부하기" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="댕댕이 이름"
-                android:textColor="@android:color/black"
-                android:textSize="20dp"/>
+                android:layout_marginBottom="8dp">
 
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Name"
-                android:inputType="text"
-                android:layout_marginBottom="10dp"
-                android:textSize="18dp"/>
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="댕댕이 이름"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="Name"
+                    android:textSize="18dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="종"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/breeds"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:hint="ex) 닥스훈트"
+                    android:inputType="text"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="60dp"
@@ -102,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="15dp">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,8 +160,6 @@
                         android:layout_weight="1"
                         android:text="여" />
                 </RadioGroup>
-
-
             </LinearLayout>
 
 
@@ -173,10 +198,39 @@
                         android:layout_weight="1"
                         android:text="N" />
                 </RadioGroup>
+            </LinearLayout>
 
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="사는 곳"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="130dp"
+                    android:layout_height="45dp"
+                    android:spinnerMode="dialog" />
+
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="130dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:spinnerMode="dialog" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,6 +259,18 @@
                     android:text="원"
                     android:textColor="@android:color/black"
                     android:textSize="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_warranty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="#FFD933"
+                    android:onClick="warrantyClick"
+                    android:text="추천"
+                    android:textColor="#3F79FF"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
