@@ -9,14 +9,14 @@ public class puppy implements Parcelable {
     private String name;
     private int status;
     private int age;
-    private int money, count;
+    private int money, count, seq;
 
 //p_id: 주인 id
     public puppy(String url1,String url2, String url3, String name,
                  int money,String neutral, String description, String add1,
                  int age,
                  String gender,
-                 String add2, String breeds, String p_id, String startDate, String endDate, int status, int count ) {
+                 String add2, String breeds, String p_id, String startDate, String endDate, int status, int count , int seq) {
         this.gender = gender;
         this.url1 = url1;
         this.url2 = url2;
@@ -34,6 +34,7 @@ public class puppy implements Parcelable {
        this.money= money;
         this.age = age;
         this.count = count;
+        this.seq = seq;
 
 
     }
@@ -56,6 +57,7 @@ public class puppy implements Parcelable {
         money = in.readInt();
         gender = in.readString();
         count =in.readInt();
+        seq = in.readInt();
     }
 
     public static final Creator<puppy> CREATOR = new Creator<puppy>() {
@@ -75,7 +77,7 @@ public class puppy implements Parcelable {
     public String getUrl1() {
         return url1;
     }
-
+    public int getSeq(){return seq;}
     public String getUrl2() {
         return url2;
     }
@@ -150,5 +152,6 @@ public class puppy implements Parcelable {
         dest.writeInt(money);
         dest.writeString(gender);
         dest.writeInt(count);
+        dest.writeInt(seq);
     }
 }

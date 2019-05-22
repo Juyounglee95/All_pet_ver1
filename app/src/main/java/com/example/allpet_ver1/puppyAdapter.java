@@ -34,7 +34,7 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
         return viewHolder;
     }
 
-    public void onBindViewHolder(@NonNull puppyAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull puppyAdapter.ViewHolder viewHolder, final int position) {
 
         final puppy item = items.get(position);
 
@@ -48,6 +48,8 @@ public class puppyAdapter extends RecyclerView.Adapter<puppyAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(context, dog_info.class);
                 intent.putExtra("puppy", item);
+                intent.putExtra("Id", item.getP_id());
+                intent.putExtra("num", item.getSeq());
 //                intent.putExtra("url", item.getUrl1());
 //                intent.putExtra("name", item.getname());
 //                intent.putExtra("money", item.getmoney());

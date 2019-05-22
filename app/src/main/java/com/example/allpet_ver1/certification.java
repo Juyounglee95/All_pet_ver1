@@ -56,7 +56,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
 
         Intent i = getIntent();
         final String id =i.getExtras().getString("Id");
-        final String pw= i.getExtras().getString("Pw");
+       // final String pw= i.getExtras().getString("Pw");
         imageView = findViewById(R.id.cert_image);
         cameraBtn = findViewById(R.id.camera_button);
         cameraBtn.setOnClickListener(this);
@@ -97,7 +97,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
                     case R.id.home:
                         intent = new Intent(certification.this, mainpage_picture.class);
                         intent.putExtra("Id", id);
-                        intent.putExtra("Pw", pw);
+                        //intent.putExtra("Pw", pw);
                         startActivity(intent);
                         break;
                     case R.id.certificate:
@@ -106,7 +106,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
                     case R.id.profile:
                         intent = new Intent(certification.this, mypage.class);
                         intent.putExtra("Id", id);
-                        intent.putExtra("Pw", pw);
+                       // intent.putExtra("Pw", pw);
                         startActivity(intent);
                         break;
 
