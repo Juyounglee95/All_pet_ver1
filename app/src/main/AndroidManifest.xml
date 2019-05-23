@@ -22,8 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <activity android:name=".list_people"></activity>
+        <activity android:name=".list_apply_people" />
+
         <activity android:name=".mission"></activity>
         <activity android:name=".reqPage" />
+
         <activity android:name=".warranty_recommand" />
         <activity android:name=".profile" />
         <activity android:name=".dog_info_upload" />
