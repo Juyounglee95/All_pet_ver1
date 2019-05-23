@@ -26,9 +26,6 @@ public class profile extends AppCompatActivity {
         p = intent.getParcelableArrayListExtra("puppy");
         id =intent.getExtras().getString("Id");
         setContentView(R.layout.activity_profile);
-        Intent intent = getIntent();
-        p = intent.getParcelableArrayListExtra("puppy");
-        id = intent.getExtras().getString("Id");
         register=(Button) findViewById(R.id.register);
         apply=(Button) findViewById(R.id.apply);
         missions=(Button) findViewById(R.id.missions);
@@ -57,6 +54,9 @@ public class profile extends AppCompatActivity {
     }
 
     public void MiOnClick(View view){
+        Intent intent = new Intent(this, mission.class);
+        intent.putExtra("Id", id);
+        startActivity(intent);
         /*Intent intent = new Intent(this,mission.class);
         intent.putExtra("situation",3);
         startActivity(intent);*/

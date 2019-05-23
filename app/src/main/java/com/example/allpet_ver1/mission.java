@@ -5,62 +5,48 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class reqPage extends AppCompatActivity {
-  //  ArrayAdapter<CharSequence> adspin1 = null;
-
-    //TextView selectedarea;
-   // Spinner spinner = null;
-   // String areas1;
+public class mission extends AppCompatActivity {
     String id;
     BottomNavigationView bottomNavigationView;
-    private boardAdapter adapter;
-    private Context context = reqPage.this;
+    private mission_adapter adapter;
+    private Context context = mission.this;
     ArrayList<puppy> p = new ArrayList<>();
-    int num;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_req_page);
-        //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
+        setContentView(R.layout.activity_mission);
         Intent intent = getIntent();
-        p = intent.getParcelableArrayListExtra("puppy");
         id = intent.getExtras().getString("Id");
-        NetworkCall networkCall= new NetworkCall();
+        NetworkCall networkCall = new NetworkCall();
         networkCall.execute();
 
     }
-    protected void setView(ArrayList<puppy> p){
-        adapter = new boardAdapter(this, p);
+    protected void setView(ArrayList<mission_data> m){
+        Log.e("abcd", "Abcafda");
+        adapter = new mission_adapter(this, m);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        adapter.setItems(p);
+        adapter.setItems(m);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
@@ -68,27 +54,30 @@ public class reqPage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //아이템 로드
-        adapter.setItems(p);
+     //   adapter.setItems(m);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;
                 switch (item.getItemId()) {
                     case R.id.home:
-                        intent = new Intent(reqPage.this, mainpage_picture.class);
+                        intent = new Intent(mission.this, mainpage_picture.class);
                         intent.putExtra("Id", id);
                         //  intent.putExtra("Pw", pw);
                         startActivity(intent);
+                        finish();
                         break;
                     case R.id.enroll_dog:
-                        intent = new Intent(reqPage.this, dog_info_upload.class);
+                        intent = new Intent(mission.this, dog_info_upload.class);
                         intent.putExtra("Id",id);
                         startActivity(intent);
+                        finish();
                         break;
                     case R.id.certificate:
-                        intent = new Intent(reqPage.this, certification.class);
+                        intent = new Intent(mission.this, certification.class);
                         intent.putExtra("Id", id);
                         //    intent.putExtra("Pw", pw);
                         startActivity(intent);
+                        finish();
                         break;
                     case R.id.profile:
                         break;
@@ -98,46 +87,30 @@ public class reqPage extends AppCompatActivity {
             }
         });
     }
-    private class NetworkCall extends AsyncTask<Call,Void, ArrayList<puppy> > {
-        ArrayList<puppy> items= new ArrayList<puppy>();
+    private class NetworkCall extends AsyncTask<Call,Void, ArrayList<mission_data> > {
+        ArrayList<mission_data> items= new ArrayList<mission_data>();
         @Override
-        protected ArrayList<puppy> doInBackground(Call... calls) {
+        protected ArrayList<mission_data> doInBackground(Call... calls) {
             Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(imgPath_interface.URL)
                     .build();
             imgPath_interface imgPath_interface= retrofit.create(imgPath_interface.class);
             JsonObject obj = new JsonObject();
-            obj.addProperty("Type","2");
+         //   obj.addProperty("Type","2");
             obj.addProperty("Id",id);
-            Call<JsonArray> call = imgPath_interface.imgTest("selectReqPet.sk",obj);
+            Call<JsonArray> call = imgPath_interface.imgTest("selectAuth.sk",obj);
             try {
                 JsonArray arr = call.execute().body();
                 if (arr != null) {
                     String imgpath;
                     // = new ArrayList<puppy>();
+                   // ArrayList<mission_data> m = new ArrayList<>();
                     Log.e("Size",String.valueOf(arr.size()));
                     for (int i = 0; i < arr.size(); i++) {
-
+                        items.add(new mission_data(arr.get(i).getAsJsonObject().get("ImgPath").getAsString()));
+                        Log.e("address", arr.get(i).getAsJsonObject().get("ImgPath").getAsString());
                         Log.e("Index", String.valueOf(i));
-                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),
-                                arr.get(i).getAsJsonObject().get("ImgPath2").getAsString(),
-                                arr.get(i).getAsJsonObject().get("ImgPath3").getAsString(),
-                                arr.get(i).getAsJsonObject().get("PetName").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Deposit").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("Neutral").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Description").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Address1").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Age").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("Gender").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Address2").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Breeds").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Id").getAsString(),
-                                arr.get(i).getAsJsonObject().get("StartDate").getAsString(),
-                                arr.get(i).getAsJsonObject().get("EndDate").getAsString(),
-                                arr.get(i).getAsJsonObject().get("StatusValue").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("Seq").getAsInt()
-                        ));
+
                         //Log.e("ITEM", items.get(i).getUrl());
                     }
                     return items;
@@ -149,9 +122,9 @@ public class reqPage extends AppCompatActivity {
 
             return null;
         }
-        protected void onPostExecute(ArrayList<puppy> p){
+        protected void onPostExecute(ArrayList<mission_data> p){
             super.onPostExecute(p);
-            Log.e("TAG",p.get(1).getname());
+          //  Log.e("TAG",p.get(1).getFile_name());
             setView(p);
         }
 

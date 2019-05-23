@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_OWNER_DATA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -21,11 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".reqPage"></activity>
-
-        <activity android:name=".warranty_recommand"></activity>
-
+        <activity android:name=".mission"></activity>
+        <activity android:name=".reqPage" />
+        <activity android:name=".warranty_recommand" />
         <activity android:name=".profile" />
         <activity android:name=".dog_info_upload" />
         <activity android:name=".mypage" />
