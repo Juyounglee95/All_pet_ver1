@@ -26,7 +26,6 @@ public class profile extends AppCompatActivity {
         p = intent.getParcelableArrayListExtra("puppy");
         id =intent.getExtras().getString("Id");
         setContentView(R.layout.activity_profile);
-        Intent intent = getIntent();
         p = intent.getParcelableArrayListExtra("puppy");
         id = intent.getExtras().getString("Id");
         register=(Button) findViewById(R.id.register);

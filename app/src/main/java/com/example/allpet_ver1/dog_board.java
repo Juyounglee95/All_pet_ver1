@@ -35,6 +35,7 @@ public class dog_board extends Activity implements BaseSliderView.OnSliderClickL
     private TextView text;
     private TextView count;
 
+    private Button want_button;
 
     final Context context = this;
     //String  dogname;
@@ -50,7 +51,7 @@ public class dog_board extends Activity implements BaseSliderView.OnSliderClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dog_board);
+        setContentView(R.layout.activity_dog_info);
         Intent i = getIntent();
         final puppy p = i.getParcelableExtra("puppy");
         final int num = i.getExtras().getInt("num");
@@ -75,6 +76,7 @@ public class dog_board extends Activity implements BaseSliderView.OnSliderClickL
         price=findViewById(R.id.price);
         text=findViewById(R.id.text);
         count=findViewById(R.id.count);
+        want_button=findViewById(R.id.btn_want);
 
 
         name.setText(p.getname());
@@ -85,6 +87,13 @@ public class dog_board extends Activity implements BaseSliderView.OnSliderClickL
         price.setText(String.valueOf(p.getmoney()));
         text.setText(p.getDescription());
         count.setText(String.valueOf(p.getCount()));
+        if(p.getStatus() == 1) {
+            want_button.setText("분양 중입니다.");
+        } else if(p.getStatus() == 2) {
+            want_button.setText("거래 완료 되었습니다.");
+        } else {
+            want_button.setText("보증이 완료 되었습니다.");
+        }
 
         sliderLayout = (SliderLayout) findViewById(R.id.slider);
 
