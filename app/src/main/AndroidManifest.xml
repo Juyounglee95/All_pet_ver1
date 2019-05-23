@@ -21,7 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".reqPage"></activity>
+
+        <activity android:name=".warranty_recommand"></activity>
+
         <activity android:name=".profile" />
         <activity android:name=".dog_info_upload" />
         <activity android:name=".mypage" />
@@ -29,6 +33,7 @@
         <activity android:name=".RegisterMyForm" />
         <activity android:name=".dog_info" />
         <activity android:name=".mainpage_picture" />
+        <activity android:name=".dog_board" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

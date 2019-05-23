@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,33 +32,46 @@ public class mypage extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private boardAdapter adapter;
     private Context context = mypage.this;
-    ArrayList<puppy> p = new ArrayList<>();
-    int num;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
         Intent intent = getIntent();
-        p = intent.getParcelableArrayListExtra("puppy");
-        num = intent.getExtras().getInt("situation");
-        adapter = new boardAdapter(this, p);
+
+        ArrayList<puppy> np = intent.getParcelableArrayListExtra("puppy");
+        final String id = intent.getExtras().getString("Id");
+
+        ArrayList<puppy> tmp = new ArrayList<>();
+      //  if(np!=null){
+        for(int i=0;i<np.size();i++) {
+
+            if(np.get(i).getP_id().equals(id)) {
+                tmp.add(np.get(i));
+            }
+        }
+      //  }
+        adapter = new boardAdapter(this, tmp);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        Intent i = getIntent();
-        ArrayList<puppy> p = i.getExtras().getParcelableArrayList("puppy");
-        final String id = i.getExtras().getString("Id");
+
+
+
+
 //        final String pw = i.getExtras().getString("Pw");
 
 
-        adapter.setItems(p);
+        adapter.setItems(tmp);
+
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        //아이템 로드
-        adapter.setItems(p);
+       
+        adapter.setItems(tmp);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;

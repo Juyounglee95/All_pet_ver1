@@ -78,8 +78,9 @@ public class certification extends AppCompatActivity implements View.OnClickList
 
         List pieData = new ArrayList<>();
         success = 80;
-        pieData.add(new SliceValue(success, Color.parseColor("#ffd933")).setLabel("SUCCESS"));
-        pieData.add(new SliceValue((100-success), Color.GRAY));
+        //#ffd933
+        pieData.add(new SliceValue(success, Color.parseColor("#D93B3B")).setLabel("SUCCESS"));
+        pieData.add(new SliceValue((100-success), Color.parseColor("#d3d3d3")));
 
 
         PieChartData pieChartData = new PieChartData(pieData);

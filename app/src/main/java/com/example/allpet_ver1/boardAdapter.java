@@ -34,8 +34,8 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
     }
 
     public void onBindViewHolder(@NonNull boardAdapter.ViewHolder viewHolder, int position) {
+        final puppy item = items.get(position);
 
-        puppy item = items.get(position);
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item.getUrl1())
@@ -45,7 +45,11 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, dog_info.class);
+                Intent intent = new Intent(context, dog_board.class);
+                intent.putExtra("puppy",item);
+//                intent.putExtra("url", item.getUrl1());
+//                intent.putExtra("name", item.getname());
+//                intent.putExtra("money", item.getmoney());
                 context.startActivity(intent);
             }
         });
