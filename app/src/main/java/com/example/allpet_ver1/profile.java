@@ -10,12 +10,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 public class profile extends AppCompatActivity {
     TextView user_id;
     TextView end_date, mission_cnt, price;
     Button register,apply,missions;
-    ArrayList<puppy> p;
     String id;
+    ArrayList<puppy> p = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,9 @@ public class profile extends AppCompatActivity {
         p = intent.getParcelableArrayListExtra("puppy");
         id =intent.getExtras().getString("Id");
         setContentView(R.layout.activity_profile);
+
+        p = intent.getParcelableArrayListExtra("puppy");
+        id = intent.getExtras().getString("Id");
         register=(Button) findViewById(R.id.register);
         apply=(Button) findViewById(R.id.apply);
         missions=(Button) findViewById(R.id.missions);
@@ -35,18 +41,25 @@ public class profile extends AppCompatActivity {
 
     public void ReOnClick(View view){
         Intent intent = new Intent(this,mypage.class);
+
         intent.putParcelableArrayListExtra("puppy",p);
         intent.putExtra("Id", id);
         startActivity(intent);
     }
 
     public void ApOnClick(View view){
-        /*Intent intent = new Intent(this,applying.class);
-        intent.putExtra("situation",2);
-        startActivity(intent);*/
+
+        Intent intent = new Intent(this,reqPage.class);
+        intent.putExtra("Id", id);
+        //intent.putExtra("situation",2);
+        startActivity(intent);
+
     }
 
     public void MiOnClick(View view){
+        Intent intent = new Intent(this, mission.class);
+        intent.putExtra("Id", id);
+        startActivity(intent);
         /*Intent intent = new Intent(this,mission.class);
         intent.putExtra("situation",3);
         startActivity(intent);*/

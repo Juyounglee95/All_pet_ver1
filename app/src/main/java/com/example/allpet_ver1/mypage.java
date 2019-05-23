@@ -39,6 +39,7 @@ public class mypage extends AppCompatActivity {
         setContentView(R.layout.activity_mypage);
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
         Intent intent = getIntent();
+
         ArrayList<puppy> np = intent.getParcelableArrayListExtra("puppy");
         final String id = intent.getExtras().getString("Id");
 
@@ -62,13 +63,15 @@ public class mypage extends AppCompatActivity {
 
         adapter.setItems(tmp);
 
+
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        //아이템 로드
+       
         adapter.setItems(tmp);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;
@@ -84,8 +87,6 @@ public class mypage extends AppCompatActivity {
 //                        intent.putExtra("Id", id);
 //                        intent.putExtra("Pw", pw);
 //                        startActivity(intent);
-                        break;
-                    case R.id.search:
                         break;
                     case R.id.certificate:
                         intent = new Intent(mypage.this, certification.class);

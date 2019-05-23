@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
@@ -47,9 +48,12 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
     //image
     ImageView image1, image2, image3;
+    //int idx=0;
+    String[] names = new String[3];
     ImageView[] images={image1, image2, image3};
-    String[] paths = new String[3];
+    File[] paths = new File[3];
     int position=0;
+    int idx2=0;
     private AlertDialog dialog;
     //사진 경로
     String mCurrentPhotoPath;
@@ -90,6 +94,8 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
     private static final int TAKE_PICTURE = 1;
     private static final int PICK_FROM_GALLERY = 2;
+    final int REQ_CODE_SELECT_IMAGE=100;
+
     String userid;
     int idx=0;
     @Override
@@ -123,7 +129,6 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
         name = (EditText) findViewById(R.id.name);
         //종
         breeds=(EditText)findViewById(R.id.breeds);
-        dog_breeds=breeds.getText().toString();
 
         //가격
         price=(EditText)findViewById(R.id.price);
@@ -234,6 +239,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
         dogname = name.getText().toString();
         deposit = Integer.parseInt(price.getText().toString());
         description = memo.getText().toString();
+        dog_breeds=breeds.getText().toString();
 
     }
 
@@ -372,11 +378,15 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
                 } else {
                     // pick from file
-
-                    Intent intent = new Intent();
-                    intent.setType("image/*"); //set type for files (image type)
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_GALLERY);
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
+//                    Intent intent = new Intent();
+//                    intent.setType("image/*"); //set type for files (image type)
+//                    intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_FROM_GALLERY);
 
                 }
             }
@@ -404,17 +414,30 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
             obj.addProperty("Deposit", deposit);
             obj.addProperty("StartDate",startDate) ;
             obj.addProperty("EndDate",endDate);
-            obj.addProperty("ImgPath1",paths[0]);
-            obj.addProperty("ImgPath2", paths[1]);
-            obj.addProperty("ImgPath3",paths[2]);
+            obj.addProperty("ImgPath1",names[0]);
+            obj.addProperty("ImgPath2", names[1]);
+            obj.addProperty("ImgPath3",names[2]);
             obj.addProperty("Description",description);
             obj.addProperty("StatusValue",1);
-            obj.addProperty("Breeds","시츄");
-            obj.addProperty("Address1", "서울");
-            obj.addProperty("Address2","강남구");
+            obj.addProperty("Breeds",dog_breeds);
+            obj.addProperty("Address1", si);
+            obj.addProperty("Address2",gu);
 
 
             Call<JsonObject> call = Ret.postTest("RegPet.sk",obj);
+            System.out.println("Start");
+            for (int i =0; i<3; i++) {
+                FTPUploader ftpUploader = null;
+                try {
+                    ftpUploader = new FTPUploader("18.191.37.77", "ftpuser", "1234");
+                    ftpUploader.uploadFile(paths[i], names[i], "/var/lib/tomcat8/webapps/upload/");
+                    ftpUploader.disconnect();
+                    System.out.println("Done");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             try {
                 JsonObject object = call.execute().body();
                 String s="";
@@ -494,8 +517,20 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 //            Bitmap photo = (Bitmap) data.getExtras().get("data");
             //set photo bitmap to ImageView
 //            images[position++].setImageBitmap(photo);
-        } else if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK) {
+        } else if (requestCode == REQ_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
+
             Uri selectedImage = data.getData();
+            String name_Str = getRealPathFromURI(data.getData());
+            Log.e("Imagepath", name_Str);
+            String file_name= getImageNameToUri(selectedImage);
+            Log.e("imagename", file_name);
+            File file = new File(name_Str);
+
+            System.out.println(file.getAbsolutePath());
+            paths[idx2] = file;
+            idx2++;
+            names[idx] =userid+"_"+file_name;
+            idx++;
             images[position++].setImageURI(selectedImage);
         }else if(resultCode == RESULT_OK){
             switch (requestCode){
@@ -506,7 +541,37 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
             }
         }
     }
+    private String getRealPathFromURI(Uri contentURI) {
 
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    public String getImageNameToUri(Uri data)
+    {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(data, null, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+
+        String imgPath = cursor.getString(column_index);
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/")+1);
+
+        return imgName;
+    }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -533,7 +598,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = userid +"_"+ timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */

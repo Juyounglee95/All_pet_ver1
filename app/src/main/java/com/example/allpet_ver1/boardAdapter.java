@@ -34,14 +34,34 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
     }
 
     public void onBindViewHolder(@NonNull boardAdapter.ViewHolder viewHolder, int position) {
-
         final puppy item = items.get(position);
+
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item.getUrl1())
                 .into(viewHolder.pup_image);
 
         viewHolder.pup_name.setText(item.getDescription());
+
+        if(item.getStatus() == 1) {
+            viewHolder.pup_status.setText("분양 진행");
+        } else if(item.getStatus() == 2) {
+            viewHolder.pup_status.setText("거래 완료");
+        } else {
+            viewHolder.pup_status.setText("보증 완료");
+        }
+        viewHolder.pup_status.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, dog_board.class);
+                intent.putExtra("puppy",item);
+//                intent.putExtra("url", item.getUrl1());
+//                intent.putExtra("name", item.getname());
+//                intent.putExtra("money", item.getmoney());
+                context.startActivity(intent);
+            }
+        });
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,12 +89,12 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
 
         ImageView pup_image;
         TextView pup_name;
-
+        TextView pup_status;
         ViewHolder(View itemView) {
             super(itemView);
 
             pup_image = itemView.findViewById(R.id.image);
-
+            pup_status = itemView.findViewById(R.id.status);
             pup_name = itemView.findViewById(R.id.title);
 
         }
