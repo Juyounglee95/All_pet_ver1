@@ -34,8 +34,8 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
     }
 
     public void onBindViewHolder(@NonNull boardAdapter.ViewHolder viewHolder, int position) {
-
         final puppy item = items.get(position);
+
 
         Glide.with(viewHolder.itemView.getContext())
                 .load(item.getUrl1())
