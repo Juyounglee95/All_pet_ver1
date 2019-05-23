@@ -236,8 +236,6 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
     //보증금 추천 버튼을 클릭 시
     public void warrantyClick(View v){
         Intent intent=new Intent(getApplicationContext(), warranty_recommand.class);
-        //intent.putExtra("dog", dog);
-        //...
         startActivity(intent);
     }
 
