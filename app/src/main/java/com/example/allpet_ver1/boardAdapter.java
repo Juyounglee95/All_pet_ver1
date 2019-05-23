@@ -42,7 +42,16 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
                 .into(viewHolder.pup_image);
 
         viewHolder.pup_name.setText(item.getDescription());
-        viewHolder.pup_name.setOnClickListener(new View.OnClickListener() {
+
+        if(item.getStatus() == 1) {
+            viewHolder.pup_status.setText("분양 진행");
+        } else if(item.getStatus() == 2) {
+            viewHolder.pup_status.setText("거래 완료");
+        } else {
+            viewHolder.pup_status.setText("보증 완료");
+        }
+        viewHolder.pup_status.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, dog_board.class);
@@ -80,12 +89,12 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
 
         ImageView pup_image;
         TextView pup_name;
-
+        TextView pup_status;
         ViewHolder(View itemView) {
             super(itemView);
 
             pup_image = itemView.findViewById(R.id.image);
-
+            pup_status = itemView.findViewById(R.id.status);
             pup_name = itemView.findViewById(R.id.title);
 
         }

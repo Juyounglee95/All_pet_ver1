@@ -44,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
+public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener{
 
     //image
     ImageView image1, image2, image3;
@@ -89,6 +89,7 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
 
     EditText memo;
 
+    Button btn_warranty;
     Button btn_upload;
 
     private static final int TAKE_PICTURE = 1;
@@ -136,6 +137,9 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
         memo=(EditText)findViewById(R.id.memo);
         //Upload
         btn_upload=(Button)findViewById(R.id.btn_upload);
+        btn_warranty=(Button)findViewById(R.id.btn_warranty);
+        btn_warranty.setOnClickListener(this);
+
 
         //age spinner
         spin1 = (Spinner)findViewById(R.id.age);
@@ -240,9 +244,10 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
     }
 
     //보증금 추천 버튼을 클릭 시
-    public void warrantyClick(View v){
-        Intent intent=new Intent(getApplicationContext(), warranty_recommand.class);
-        startActivity(intent);
+    public void onClick(View v){
+        Intent calIntent = new Intent(this, warranty_recommand.class);
+        startActivityForResult(calIntent,3000);
+
     }
 
 
@@ -527,6 +532,13 @@ public class dog_info_upload extends AppCompatActivity implements RadioGroup.OnC
             names[idx] =userid+"_"+file_name;
             idx++;
             images[position++].setImageURI(selectedImage);
+        }else if(resultCode == RESULT_OK){
+            switch (requestCode){
+                // MainActivity 에서 요청할 때 보낸 요청 코드 (3000)
+                case 3000:
+                    price.setText(data.getStringExtra("price"));
+                    break;
+            }
         }
     }
     private String getRealPathFromURI(Uri contentURI) {

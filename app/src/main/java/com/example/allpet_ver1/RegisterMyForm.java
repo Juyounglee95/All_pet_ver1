@@ -292,8 +292,6 @@ public class RegisterMyForm extends AppCompatActivity {
 
         }
 
-
-
     }
 
 }
