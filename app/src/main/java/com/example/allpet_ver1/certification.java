@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -25,7 +26,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +41,9 @@ import java.util.List;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class certification extends AppCompatActivity implements View.OnClickListener {
     int success;
@@ -47,7 +54,10 @@ public class certification extends AppCompatActivity implements View.OnClickList
     TextView file_name;
     final static int TAKE_PICTURE=1;
     BottomNavigationView bottomNavigationView;
-
+    String id;
+    private Uri imageUri;
+    String imgname;
+    File image_file;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +65,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
         PieChartView pieChartView = findViewById(R.id.chart);
 
         Intent i = getIntent();
-        final String id =i.getExtras().getString("Id");
+        id =i.getExtras().getString("Id");
        // final String pw= i.getExtras().getString("Pw");
         imageView = findViewById(R.id.cert_image);
         cameraBtn = findViewById(R.id.camera_button);
@@ -119,6 +129,10 @@ public class certification extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.upload_button:
+
+                Log.e("TTTTTT", mCurrentPhotoPath);
+                        NetworkCall networkCall = new NetworkCall();
+                        networkCall.execute();
                 new AlertDialog.Builder(this)
                         .setTitle("업로드 확인")
                         .setMessage("인증샷이 업로드 되었습니다.")
@@ -147,11 +161,15 @@ public class certification extends AppCompatActivity implements View.OnClickList
         switch (requestCode) {
             case TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
-                    File file = new File(mCurrentPhotoPath);
+                    image_file = new File(mCurrentPhotoPath);
                     Bitmap bitmap = MediaStore.Images.Media
-                            .getBitmap(getContentResolver(), Uri.fromFile(file));
+                            .getBitmap(getContentResolver(), Uri.fromFile(image_file));
                     if (bitmap != null) {
-                        file_name.setText(file.getName());
+                        file_name.setText(image_file.getName());
+                        imgname = image_file.getName();
+
+                       // String[] names= file_name.getText().toString().split("_");
+                        //imgname = names[0]+"_"+names[1];
                         ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
                         int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                                 ExifInterface.ORIENTATION_UNDEFINED);
@@ -175,6 +193,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
                             default:
                                 rotatedBitmap = bitmap;
                         }
+                        //galleryAddPic();
 
                         imageView.setImageBitmap(rotatedBitmap);
                     }
@@ -187,6 +206,21 @@ public class certification extends AppCompatActivity implements View.OnClickList
         error.printStackTrace();
     }
     }
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+
+        File f = new File(mCurrentPhotoPath);
+
+        Uri contentUri = Uri.fromFile(f);
+
+        mediaScanIntent.setData(contentUri);
+
+        sendBroadcast(mediaScanIntent);
+
+        Toast.makeText(this,"사진이 저장되었습니다",Toast.LENGTH_SHORT).show();
+    }
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -203,6 +237,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.allpet_ver1.fileprovider",
                         photoFile);
+                imageUri =photoURI;
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, TAKE_PICTURE);
             }
@@ -212,24 +247,90 @@ public class certification extends AppCompatActivity implements View.OnClickList
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
+        String imageFileName = id+"_"+timeStamp+"_";
+       //
+        //
+        //
+        //imgname = imageFileName;
+        //File imageFile = null;
+        File storageDir = new File(Environment.getExternalStorageDirectory()+"/Pictures","All_pet");
+
+        if(!storageDir.exists()){
+            storageDir.mkdirs();
+        }
+//        File imageFile = new File.createTempFile(imgname,".jpg", storageDir);
+
+
+
+        File imageFile = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
 
-        return image;
+        return imageFile;
     }
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
                 matrix, true);
+    }
+    private class NetworkCall extends AsyncTask<Call,Void, String> {
+        ArrayList<puppy> items= new ArrayList<puppy>();
+
+        @Override
+        protected String doInBackground(Call... calls) {
+            Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(RetrofitExService.URL)
+                    .build();
+            RetrofitExService Ret= retrofit.create(RetrofitExService.class);
+            JsonObject obj = new JsonObject();
+            obj.addProperty("Id", id);
+            obj.addProperty("File", imgname);
+            System.out.println("Start");
+            FTPUploader ftpUploader = null;
+            try {
+                ftpUploader = new FTPUploader("18.191.37.77", "ftpuser", "1234");
+                ftpUploader.uploadFile(image_file, imgname, "/var/lib/tomcat8/webapps/upload/");
+                ftpUploader.disconnect();
+                System.out.println("Done");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Call<JsonObject> call = Ret.postTest("RegAuth.sk",obj);
+            try {
+                JsonObject object = call.execute().body();
+                String s="";
+                if (object != null) {
+                    s = object.get("result").getAsString();
+
+                }
+                return s;
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+        protected void onPostExecute(String s){
+            super.onPostExecute(s);
+            if(s.equals("true")){
+
+            }
+            Log.e("TAG",s);
+
+        }
+
+
+
     }
 
 }
