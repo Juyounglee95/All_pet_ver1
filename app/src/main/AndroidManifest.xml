@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".profile"></activity>
+        <activity android:name=".reqPage"></activity>
+        <activity android:name=".profile" />
         <activity android:name=".dog_info_upload" />
         <activity android:name=".mypage" />
         <activity android:name=".certification" />

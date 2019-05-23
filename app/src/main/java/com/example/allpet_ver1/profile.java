@@ -6,13 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class profile extends AppCompatActivity {
     Button register,apply,missions;
-
+    String id;
+    ArrayList<puppy> p = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Intent intent = getIntent();
+        p = intent.getParcelableArrayListExtra("puppy");
+        id = intent.getExtras().getString("Id");
         register=(Button) findViewById(R.id.register);
         apply=(Button) findViewById(R.id.apply);
         missions=(Button) findViewById(R.id.missions);
@@ -21,13 +27,15 @@ public class profile extends AppCompatActivity {
 
     public void ReOnClick(View view){
         Intent intent = new Intent(this,mypage.class);
-        intent.putExtra("situation",1);
+
+       // intent.putExtra("situation",1);
         startActivity(intent);
     }
 
     public void ApOnClick(View view){
-        Intent intent = new Intent(this,mypage.class);
-        intent.putExtra("situation",2);
+        Intent intent = new Intent(this,reqPage.class);
+        intent.putExtra("Id", id);
+        //intent.putExtra("situation",2);
         startActivity(intent);
     }
 

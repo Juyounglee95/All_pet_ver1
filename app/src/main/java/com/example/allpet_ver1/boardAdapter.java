@@ -15,11 +15,11 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> {
-    private ArrayList<board> items = new ArrayList<>();
+    private ArrayList<puppy> items = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
     public View view;
-    public boardAdapter(Context context, ArrayList<board> items ){
+    public boardAdapter(Context context, ArrayList<puppy> items ){
 
         this.items = items;
         this.context = context;
@@ -35,13 +35,13 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
 
     public void onBindViewHolder(@NonNull boardAdapter.ViewHolder viewHolder, int position) {
 
-        board item = items.get(position);
+        puppy item = items.get(position);
 
         Glide.with(viewHolder.itemView.getContext())
-                .load(item.getUrl())
+                .load(item.getUrl1())
                 .into(viewHolder.pup_image);
 
-        viewHolder.pup_name.setText(item.getTitle());
+        viewHolder.pup_name.setText(item.getDescription());
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +58,7 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
         return items.size();
     }
 
-    public void setItems(ArrayList<board> items) {
+    public void setItems(ArrayList<puppy> items) {
         this.items = items;
     }
     class ViewHolder extends RecyclerView.ViewHolder {

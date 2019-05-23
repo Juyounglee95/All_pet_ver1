@@ -92,8 +92,6 @@ public class certification extends AppCompatActivity implements View.OnClickList
                 switch (item.getItemId()) {
                     case R.id.enroll_dog:
                         break;
-                    case R.id.search:
-                        break;
                     case R.id.home:
                         intent = new Intent(certification.this, mainpage_picture.class);
                         intent.putExtra("Id", id);
@@ -104,7 +102,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
 
                         break;
                     case R.id.profile:
-                        intent = new Intent(certification.this, mypage.class);
+                        intent = new Intent(certification.this, profile.class);
                         intent.putExtra("Id", id);
                        // intent.putExtra("Pw", pw);
                         startActivity(intent);

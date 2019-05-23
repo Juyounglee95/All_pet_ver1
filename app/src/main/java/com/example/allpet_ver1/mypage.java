@@ -31,6 +31,7 @@ public class mypage extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private boardAdapter adapter;
     private Context context = mypage.this;
+    ArrayList<puppy> p = new ArrayList<>();
     int num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +39,17 @@ public class mypage extends AppCompatActivity {
         setContentView(R.layout.activity_mypage);
         //   GridView gridView= (GridView) findViewById(R.id.example_gridview);
         Intent intent = getIntent();
+        p = intent.getParcelableArrayListExtra("puppy");
         num = intent.getExtras().getInt("situation");
-        adapter = new boardAdapter(this, new board_data().getitems(num));
+        adapter = new boardAdapter(this, p);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
         Intent i = getIntent();
         ArrayList<puppy> p = i.getExtras().getParcelableArrayList("puppy");
         final String id = i.getExtras().getString("Id");
 //        final String pw = i.getExtras().getString("Pw");
 
 
-        adapter.setItems(new board_data().getitems(num));
+        adapter.setItems(p);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
 
@@ -56,7 +57,7 @@ public class mypage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //아이템 로드
-        adapter.setItems(new board_data().getitems(num));
+        adapter.setItems(p);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
             public boolean onNavigationItemSelected(@NonNull MenuItem item){
                 Intent intent;
@@ -72,8 +73,6 @@ public class mypage extends AppCompatActivity {
 //                        intent.putExtra("Id", id);
 //                        intent.putExtra("Pw", pw);
 //                        startActivity(intent);
-                        break;
-                    case R.id.search:
                         break;
                     case R.id.certificate:
                         intent = new Intent(mypage.this, certification.class);

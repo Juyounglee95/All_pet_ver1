@@ -149,8 +149,6 @@ public class mainpage_picture extends AppCompatActivity  {
                         startActivity(intent);
                        // finish();
                         break;
-                    case R.id.search:
-                        break;
                     case R.id.certificate:
                         intent = new Intent(mainpage_picture.this, certification.class);
                         intent.putExtra("Id", id);
