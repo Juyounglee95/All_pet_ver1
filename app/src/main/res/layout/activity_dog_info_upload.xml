@@ -266,7 +266,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="#FFD933"
-                    android:onClick="warrantyClick"
+                    android:onClick="onClick"
                     android:text="추천"
                     android:textColor="#3F79FF"
                     android:textSize="15dp"
