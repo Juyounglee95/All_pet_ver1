@@ -1,17 +1,28 @@
 package com.example.allpet_ver1;
 
-import android.graphics.Color;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class warranty_recommand extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
     TextView price;
@@ -26,7 +37,6 @@ public class warranty_recommand extends AppCompatActivity implements RadioGroup.
     RadioGroup radio_vaccine;
     RadioGroup radio_toilet;
 
-
     //나이, 종, 기간, 성별, 중성화, 백신, 화장실 값들....
     int age=0;
     String dog_breeds="";
@@ -35,6 +45,7 @@ public class warranty_recommand extends AppCompatActivity implements RadioGroup.
     String operation="";
     String vaccine="";
     String toilet="";
+
 
     Button btn_recommand;
 
@@ -91,9 +102,6 @@ public class warranty_recommand extends AppCompatActivity implements RadioGroup.
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
-        //breeds
-        dog_breeds=breeds.getText().toString();
-
     }
 
     //RadioButton 성별, 중성화 여부
@@ -140,10 +148,10 @@ public class warranty_recommand extends AppCompatActivity implements RadioGroup.
                     toilet="잘 가림";
                     break;
                 case R.id.toilet_2:
-                    toilet="어느 정도 가림";
+                    toilet="어느정도";
                     break;
                 case R.id.toilet_3:
-                    toilet="전혀 못가림";
+                    toilet="전혀못가림";
                     break;
                 default:
                     break;
@@ -151,8 +159,97 @@ public class warranty_recommand extends AppCompatActivity implements RadioGroup.
         }
     }
 
+
     public void recommandClick(View v){
-        //price.setText();
+
+        dog_breeds=breeds.getText().toString();
+        warranty_recommand.NetworkCall networkCall = new warranty_recommand.NetworkCall();
+        networkCall.execute();
+
+    }
+    public void setp(Integer d){
+        price.setText(String.valueOf(d));
+    }
+
+    //금액산정 후 확인 버튼
+    public void btn_ok_Click(View v){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        // AlertDialog 셋팅
+        alertDialogBuilder
+                .setMessage(price.getText().toString()+"원 입니다.\n"
+                +"이대로 하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("price",price.getText().toString());
+                        setResult(RESULT_OK,resultIntent);
+                        finish();
+
+                    }
+                })
+                .setNegativeButton("아뇨", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // 취소한다
+                        dialog.cancel();
+                    }
+                });
+
+        // 다이얼로그 생성
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.setTitle("보증금 산정");
+        alertDialog.setIcon(R.drawable.dog_foot);
+
+        // 다이얼로그 보여주기
+        alertDialog.show();
+    }
+
+
+    private class NetworkCall extends AsyncTask<Call,Void, Integer> {
+        @Override
+        protected Integer doInBackground(Call... calls) {
+            Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(deposit_interface.URL)
+                    .build();
+            deposit_interface deposit_interface= retrofit.create(deposit_interface.class);
+            JsonObject obj = new JsonObject();
+            obj.addProperty("Breed", dog_breeds);
+            obj.addProperty("Vaccin", vaccine);
+            obj.addProperty("Toilet", toilet);
+            obj.addProperty("Neutral", operation);
+            obj.addProperty("Age", "1년이하");
+            obj.addProperty("Warranty_Period", warranty_period);
+           Log.e("obj", obj.toString());
+            Call<JsonObject> call = deposit_interface.postTest("deposit",obj);
+            try {
+                String deposit="";
+                int d =0;
+                JsonObject object = call.execute().body();
+              //  Log.e("AAAAa", object.getAsString());
+                if (object != null) {
+                    deposit = object.get("Price").getAsString();
+                    d=Integer.parseInt(deposit)*1000;
+                    Log.e("TAG",d+"======================================");
+
+                }
+                return d;
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+        protected void onPostExecute(Integer s){
+            super.onPostExecute(s);
+            setp(s);
+            Log.e("TAG",String.valueOf(s));
+
+        }
+
     }
 
 }
