@@ -1,4 +1,7 @@
 package com.example.allpet_ver1;
+
+import android.os.Parcelable;
+
 public class board {
 
     private String url;
