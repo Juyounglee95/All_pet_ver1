@@ -45,6 +45,7 @@ dependencies {
     api 'com.nineoldandroids:library:2.4.0'
     api 'com.daimajia.slider:library:1.1.5@aar'
 
+
 //    api 'com.google.code.gson:gson:2.2.4'
 //    api 'com.googlecode.json-simple:json-simple:1.1.1'
 //    api 'com.squareup.okhttp3:okhttp:3.8.0'
