@@ -51,6 +51,7 @@ public class profile extends AppCompatActivity {
     public void ApOnClick(View view){
 
         Intent intent = new Intent(this,reqPage.class);
+        intent.putParcelableArrayListExtra("puppy",p);
         intent.putExtra("Id", id);
         //intent.putExtra("situation",2);
         startActivity(intent);

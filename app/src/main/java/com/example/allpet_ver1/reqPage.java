@@ -33,11 +33,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class reqPage extends AppCompatActivity {
-  //  ArrayAdapter<CharSequence> adspin1 = null;
+    //  ArrayAdapter<CharSequence> adspin1 = null;
 
     //TextView selectedarea;
-   // Spinner spinner = null;
-   // String areas1;
+    // Spinner spinner = null;
+    // String areas1;
     String id;
     BottomNavigationView bottomNavigationView;
     private boardAdapter adapter;
@@ -52,6 +52,7 @@ public class reqPage extends AppCompatActivity {
         Intent intent = getIntent();
         p = intent.getParcelableArrayListExtra("puppy");
         id = intent.getExtras().getString("Id");
+
         NetworkCall networkCall= new NetworkCall();
         networkCall.execute();
 
@@ -99,7 +100,7 @@ public class reqPage extends AppCompatActivity {
         });
     }
     private class NetworkCall extends AsyncTask<Call,Void, ArrayList<puppy> > {
-        ArrayList<puppy> items= new ArrayList<puppy>();
+        ArrayList<puppy> n_items= new ArrayList<>();
         @Override
         protected ArrayList<puppy> doInBackground(Call... calls) {
             Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
@@ -107,11 +108,13 @@ public class reqPage extends AppCompatActivity {
                     .build();
             imgPath_interface imgPath_interface= retrofit.create(imgPath_interface.class);
             JsonObject obj = new JsonObject();
-            obj.addProperty("Type","2");
+            obj.addProperty("Type","1");
             obj.addProperty("Id",id);
+            Log.e("loggg", String.valueOf(obj));
             Call<JsonArray> call = imgPath_interface.imgTest("selectReqPet.sk",obj);
             try {
                 JsonArray arr = call.execute().body();
+                Log.e("result",String.valueOf(arr));
                 if (arr != null) {
                     String imgpath;
                     // = new ArrayList<puppy>();
@@ -119,28 +122,16 @@ public class reqPage extends AppCompatActivity {
                     for (int i = 0; i < arr.size(); i++) {
 
                         Log.e("Index", String.valueOf(i));
-                        items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),
-                                arr.get(i).getAsJsonObject().get("ImgPath2").getAsString(),
-                                arr.get(i).getAsJsonObject().get("ImgPath3").getAsString(),
-                                arr.get(i).getAsJsonObject().get("PetName").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Deposit").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("Neutral").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Description").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Address1").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Age").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("Gender").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Address2").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Breeds").getAsString(),
-                                arr.get(i).getAsJsonObject().get("Id").getAsString(),
-                                arr.get(i).getAsJsonObject().get("StartDate").getAsString(),
-                                arr.get(i).getAsJsonObject().get("EndDate").getAsString(),
-                                arr.get(i).getAsJsonObject().get("StatusValue").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("RequestCnt").getAsInt(),
-                                arr.get(i).getAsJsonObject().get("Seq").getAsInt()
-                        ));
-                        //Log.e("ITEM", items.get(i).getUrl());
+                        int path = arr.get(i).getAsJsonObject().get("PetSeq").getAsInt();
+                        for(int k=0; k<p.size(); k++){
+                            int seq = p.get(k).getSeq();
+                            if(seq==path){
+                                n_items.add(p.get(k));
+                            }
+                        }
+                     //   Log.e("Path", path);
                     }
-                    return items;
+                    return n_items;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -151,7 +142,7 @@ public class reqPage extends AppCompatActivity {
         }
         protected void onPostExecute(ArrayList<puppy> p){
             super.onPostExecute(p);
-            Log.e("TAG",p.get(1).getname());
+           // Log.e("TAG",p.get(1).getname());
             setView(p);
         }
 
