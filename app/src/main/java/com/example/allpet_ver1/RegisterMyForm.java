@@ -251,6 +251,7 @@ public class RegisterMyForm extends AppCompatActivity {
                     .build();
             RetrofitExService Ret= retrofit.create(RetrofitExService.class);
             JsonObject obj = new JsonObject();
+            obj.addProperty("Id", p_id);
            obj.addProperty("PetSeq", num);
             obj.addProperty("ReqName", username);
             obj.addProperty("PhoneNum", phone_num);

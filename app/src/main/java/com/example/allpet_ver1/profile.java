@@ -27,8 +27,8 @@ public class profile extends AppCompatActivity {
         id =intent.getExtras().getString("Id");
         setContentView(R.layout.activity_profile);
 
-        p = intent.getParcelableArrayListExtra("puppy");
-        id = intent.getExtras().getString("Id");
+        //p = intent.getParcelableArrayListExtra("puppy");
+        //id = intent.getExtras().getString("Id");
         register=(Button) findViewById(R.id.register);
         apply=(Button) findViewById(R.id.apply);
         missions=(Button) findViewById(R.id.missions);
@@ -37,6 +37,7 @@ public class profile extends AppCompatActivity {
         end_date=(TextView) findViewById(R.id.end_date);
         mission_cnt=(TextView) findViewById(R.id.mission_cnt);
         price=(TextView) findViewById(R.id.price);
+        user_id.setText(id);
     }
 
     public void ReOnClick(View view){
@@ -63,5 +64,10 @@ public class profile extends AppCompatActivity {
         /*Intent intent = new Intent(this,mission.class);
         intent.putExtra("situation",3);
         startActivity(intent);*/
+    }
+    public  void checkOnClick(View  view){
+        Intent intent = new Intent(this, check_pic.class);
+        intent.putExtra("Id", id);
+        startActivity(intent);
     }
 }
