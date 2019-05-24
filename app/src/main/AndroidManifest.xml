@@ -23,8 +23,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".check_pic"></activity>
-        <activity android:name=".mission" />
+     
+
+        <activity android:name=".list_people"></activity>
+        <activity android:name=".list_apply_people" />
+
+        <activity android:name=".mission"></activity>
+
         <activity android:name=".reqPage" />
+
         <activity android:name=".warranty_recommand" />
         <activity android:name=".profile" />
         <activity android:name=".dog_info_upload" />
