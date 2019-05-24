@@ -69,7 +69,7 @@ public class RegisterMyForm extends AppCompatActivity {
     String job_string;
     String family_num_string;
     String comment;
-    String experience;
+    String experience="Y";
     final Context context = this;
 
     //Dog dog;
