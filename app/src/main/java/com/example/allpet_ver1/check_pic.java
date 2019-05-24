@@ -32,6 +32,8 @@ public class check_pic extends AppCompatActivity {
         setContentView(R.layout.activity_check_pic);
         Intent intent = getIntent();
         id = intent.getExtras().getString("Id");
+        NetworkCall networkCall = new NetworkCall();
+        networkCall.execute();
     }
     protected void setView(ArrayList<mission_data> m){
        // Log.e("abcd", "Abcafda");
@@ -88,7 +90,7 @@ public class check_pic extends AppCompatActivity {
                     .build();
             imgPath_interface imgPath_interface= retrofit.create(imgPath_interface.class);
             JsonObject obj = new JsonObject();
-            //   obj.addProperty("Type","2");
+            obj.addProperty("PetSeq", 657);
             obj.addProperty("Id",id);
           //  obj.addProperty("");
             Call<JsonArray> call = imgPath_interface.imgTest("selectAuth.sk",obj);
