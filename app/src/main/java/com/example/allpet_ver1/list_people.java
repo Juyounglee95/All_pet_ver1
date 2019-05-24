@@ -219,7 +219,7 @@ public class list_people extends AppCompatActivity {
             imgPath_interface imgPath_interface = retrofit.create(imgPath_interface.class);
             JsonObject obj = new JsonObject();
             obj.addProperty("Type", "1");
-            obj.addProperty("PetSeq", p_id);
+            obj.addProperty("PetSeq", 657);
             Call<JsonArray> call = imgPath_interface.imgTest("selectReqPet.sk", obj);
             try {
                 JsonArray arr = call.execute().body();
@@ -256,7 +256,7 @@ public class list_people extends AppCompatActivity {
         protected void onPostExecute(ArrayList<people> p) {
             super.onPostExecute(p);
             np =p;
-            Log.e("TAG", p.get(1).getName());
+          //  Log.e("TAG", p.get().getName());
             setview(p);
         }
     }
@@ -282,7 +282,7 @@ public class list_people extends AppCompatActivity {
 //            obj.addProperty("Job", Job);
 //            obj.addProperty("ReqName", ReqName);
             obj.addProperty("statusvalue" ,2);
-            obj.addProperty("Seq", p_id);
+            obj.addProperty("seq",657 );
             Call<JsonObject> call = imgPath_interface.postTest("updatePetDetail.sk", obj);
             Log.e("obj", obj.toString());
             try {
