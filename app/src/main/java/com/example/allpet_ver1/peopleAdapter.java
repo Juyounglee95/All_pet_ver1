@@ -19,7 +19,7 @@ public class peopleAdapter extends RecyclerView.Adapter<peopleAdapter.ViewHolder
     private LayoutInflater inflater;
     private Context context;
     public View view;
-
+    int p=0;
     public peopleAdapter(Context context, ArrayList<people> items) {
         this.items = items;
         this.context = context;
@@ -50,7 +50,7 @@ public class peopleAdapter extends RecyclerView.Adapter<peopleAdapter.ViewHolder
         viewHolder.phoneNum.setText(item.getPhoneNum());
         viewHolder.familyNum.setText(item.getFamilyNum());
         viewHolder.experience.setText(item.getExperience());
-
+        p = position;
     }
 
     @Override

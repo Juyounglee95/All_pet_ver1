@@ -201,7 +201,7 @@ public class mainpage_picture extends AppCompatActivity  {
                     String imgpath;
                     // = new ArrayList<puppy>();
                     Log.e("Size",String.valueOf(arr.size()));
-                    for (int i = 0; i < 100; i++) {
+                    for (int i = 0; i < arr.size(); i++) {
 
                         Log.e("Index", String.valueOf(i));
                         items.add(new puppy(arr.get(i).getAsJsonObject().get("ImgPath1").getAsString(),

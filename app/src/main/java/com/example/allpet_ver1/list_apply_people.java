@@ -50,7 +50,7 @@ public class list_apply_people extends Activity implements BaseSliderView.OnSlid
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dog_info);
+        setContentView(R.layout.activity_list_apply_people);
         Intent i = getIntent();
         final puppy p = i.getParcelableExtra("puppy");
         final int num = i.getExtras().getInt("num");
@@ -91,10 +91,8 @@ public class list_apply_people extends Activity implements BaseSliderView.OnSlid
         want_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), RegisterMyForm.class);
-                intent.putExtra("puppy", p);
+                Intent intent=new Intent(getApplicationContext(), list_people.class);
                 intent.putExtra("Id", p_id);
-                intent.putExtra("num", num);
                 startActivity(intent);             
             }
         });
