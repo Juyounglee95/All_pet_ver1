@@ -65,7 +65,7 @@ public class boardAdapter extends RecyclerView.Adapter<boardAdapter.ViewHolder> 
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, dog_board.class);
+                Intent intent = new Intent(context, list_apply_people.class);
                 intent.putExtra("puppy",item);
 //                intent.putExtra("url", item.getUrl1());
 //                intent.putExtra("name", item.getname());
