@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
-            android:text="         미션 확인" />
+            android:text="         분양 보낸 강아지 사진" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

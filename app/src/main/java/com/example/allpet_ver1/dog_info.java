@@ -42,6 +42,7 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
     //String  dogname;
     String[] imgUrl = new String[3];
     String[] address = new String[2];
+    int num =0;
     int money;
     //images
 //    int[] HashMapForLocalRes={R.drawable.golden_1, R.drawable.golden_2, R.drawable.golden_3};
@@ -55,7 +56,7 @@ public class dog_info extends Activity implements BaseSliderView.OnSliderClickLi
         setContentView(R.layout.activity_dog_info);
         Intent i = getIntent();
         final puppy p = i.getParcelableExtra("puppy");
-        final int num = i.getExtras().getInt("num");
+         num = i.getExtras().getInt("num");
         final String p_id = i.getExtras().getString("Id");
         imgUrl[0] = p.getUrl1();
         imgUrl[1] = p.getUrl2();
