@@ -290,7 +290,7 @@ public class certification extends AppCompatActivity implements View.OnClickList
             RetrofitExService Ret= retrofit.create(RetrofitExService.class);
             JsonObject obj = new JsonObject();
             obj.addProperty("Id", id);
-            obj.addProperty("PetSeq",666 );
+            obj.addProperty("PetSeq",657 );
             obj.addProperty("File", imgname);
             System.out.println("Start");
             FTPUploader ftpUploader = null;
