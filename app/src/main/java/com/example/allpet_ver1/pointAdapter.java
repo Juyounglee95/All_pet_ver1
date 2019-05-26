@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class pointAdapter extends RecyclerView.Adapter<pointAdapter.ViewHolder> {
@@ -41,30 +43,31 @@ public class pointAdapter extends RecyclerView.Adapter<pointAdapter.ViewHolder> 
                 .load(item.getUrl())
                 .into(viewHolder.pup_image);
 
-        viewHolder.pup_name.setText(item.getDetail());
+        viewHolder.pup_name.setText(item.getDetail()+"");
         viewHolder.pup_point.setText(String.valueOf(item.getPoint()));
 
-        viewHolder.pup_name.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, point_info.class);
-                intent.putExtra("sksk",item);
-//                intent.putExtra("url", item.getUrl1());
-//                intent.putExtra("name", item.getname());
-//                intent.putExtra("money", item.getmoney());
-                context.startActivity(intent);
-            }
-        });
+//        viewHolder.pup_name.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, point_info.class);
+//                intent.putExtra("sksk",item);
+////                intent.putExtra("url", item.getUrl1());
+////                intent.putExtra("name", item.getname());
+////                intent.putExtra("money", item.getmoney());
+//                context.startActivity(intent);
+//            }
+//        });
 
         viewHolder.pup_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, point_info.class);
                 intent.putExtra("sksk",item);
-//                intent.putExtra("url", item.getUrl1());
-//                intent.putExtra("name", item.getname());
-//                intent.putExtra("money", item.getmoney());
+                intent.putExtra("url", item.getUrl());
+                intent.putExtra("name", item.getDetail());
+                intent.putExtra("money", String.valueOf(item.getPoint()));
+                intent.putExtra("text", item.getDescription());
                 context.startActivity(intent);
             }
         });
