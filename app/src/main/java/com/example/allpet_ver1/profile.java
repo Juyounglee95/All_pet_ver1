@@ -71,4 +71,12 @@ public class profile extends AppCompatActivity {
         intent.putExtra("Id", id);
         startActivity(intent);
     }
+    public void PointClick(View view){
+        Intent intent = new Intent(this, point.class);
+        intent.putExtra("Id", id);
+        startActivity(intent);
+        /*Intent intent = new Intent(this,mission.class);
+        intent.putExtra("situation",3);
+        startActivity(intent);*/
+    }
 }

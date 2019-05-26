@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
-            android:text="         내가 올린 글" />
+            android:text="         포인트 쇼핑몰" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

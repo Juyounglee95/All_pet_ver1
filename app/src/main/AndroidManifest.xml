@@ -41,6 +41,8 @@
         <activity android:name=".dog_info" />
         <activity android:name=".mainpage_picture" />
         <activity android:name=".dog_board" />
+        <activity android:name=".point_info" />
+        <activity android:name=".point" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
