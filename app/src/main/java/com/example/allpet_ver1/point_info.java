@@ -49,11 +49,11 @@ public class point_info extends Activity implements BaseSliderView.OnSliderClick
         setContentView(R.layout.activity_point);
         Intent i = getIntent();
         final point_data p = i.getParcelableExtra("sksk");
-        num = i.getExtras().getInt("num");
-        final String p_id = i.getExtras().getString("Id");
-        imgUrl[0] = p.getUrl();
-        imgUrl[1] = p.getUrl();
-        imgUrl[2] = p.getUrl();
+        //num = i.getExtras().getInt("num");
+        //final String p_id = i.getExtras().getString("Id");
+        imgUrl[0] = i.getExtras().getString("url");
+        //imgUrl[1] = p.getUrl();
+        //imgUrl[2] = p.getUrl();
 
 //
 //        imgUrl[0] = i.getExtras().getString("url");
@@ -68,9 +68,9 @@ public class point_info extends Activity implements BaseSliderView.OnSliderClick
         want_button=findViewById(R.id.btn_want);
 
 
-        name.setText(p.getDetail());
-        description.setText(p.getDescription());
-        point.setText(String.valueOf(p.getDetail()));
+        name.setText(i.getExtras().getString("name"));
+        description.setText(i.getExtras().getString("text"));
+        point.setText(i.getExtras().getString("money"));
 
         //want_button click
         want_button.setOnClickListener(new View.OnClickListener(){
@@ -115,7 +115,7 @@ public class point_info extends Activity implements BaseSliderView.OnSliderClick
         onStop();
 
         //insert images
-        for(int index=0 ;index< imgUrl.length; index++){
+        for(int index=0 ;index< 1; index++){
 
             //TextSliderView
             DefaultSliderView textSliderView = new DefaultSliderView(point_info.this);
